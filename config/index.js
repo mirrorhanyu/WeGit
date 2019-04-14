@@ -90,7 +90,9 @@ const config = {
           }
         }
       }
-    }
+    },
+    //https://taro-ui.aotu.io/#/docs/quickstart
+    esnextModules: ['taro-ui']
   }
 }
 

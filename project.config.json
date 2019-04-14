@@ -2,7 +2,7 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "gitter",
 	"description": "gitter",
-	"appid": "wx5da1c1c9ba8a93f6",
+	"appid": "wx9427ea4ff824b6a6",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
