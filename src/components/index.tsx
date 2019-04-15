@@ -1,12 +1,12 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import {View} from "@tarojs/components";
-import { Footer } from '../../components/footer'
+import { Footer } from './footer'
+import { Trending } from './trending'
 import { connect } from '@tarojs/redux'
-
 import 'taro-ui/dist/style/index.scss'
-import './index.scss'
-import {ACTIVITY, TRENDING} from "../../constants/tab";
+import { ACTIVITY, TRENDING } from "../constants/tab";
+
 
 type PageStateProps = {
   tab: {
@@ -46,7 +46,7 @@ class Index extends Component {
   render () {
     return (
       <View className='index'>
-        {this.props.tab.current === TRENDING && <View>Hello</View> }
+        {this.props.tab.current === TRENDING && <Trending /> }
         {this.props.tab.current === ACTIVITY && <View>World</View> }
         <Footer />
       </View>

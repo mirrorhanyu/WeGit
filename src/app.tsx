@@ -2,7 +2,7 @@ import '@tarojs/async-await'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
 
-import Index from './pages/index'
+import Index from './components'
 
 import configStore from './store'
 
@@ -27,7 +27,7 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'components/index'
     ],
     window: {
       backgroundTextStyle: 'light',

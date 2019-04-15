@@ -2,9 +2,8 @@ import {ComponentClass} from "react";
 import Taro, {Component} from '@tarojs/taro'
 import {AtTabBar} from 'taro-ui'
 
-import './footer.scss'
 import {connect} from "@tarojs/redux";
-import {switchTab} from "../actions/tab";
+import {switchTab} from "../../actions/tab";
 
 type PageStateProps = {
   tab: {
