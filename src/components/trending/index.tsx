@@ -6,13 +6,14 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import {connect} from "@tarojs/redux";
 import {View} from "@tarojs/components";
 import {fetchData} from "../../actions/trending";
+import Repository from "./repository";
 
 type PageStateProps = {
   trending: {
     isRepositoriesUpdating: boolean,
     isDevelopersUpdating: boolean,
-    repositories: string[],
-    developers: string[]
+    repositories: object[],
+    developers: object[]
   }
 }
 
@@ -55,6 +56,11 @@ class Trending extends Component {
 
   render() {
     const tabs = [{ title: 'Repositories' }, { title: 'Developers' }]
+    const repositories = this.props.trending.repositories.map(
+      (repo) => {
+        return (<Repository repo={repo}/>)
+      }
+    )
     return (
       <View>
         <AtTabs current={this.state.current} tabList={tabs} onClick={this.handleClick.bind(this)}>
@@ -65,6 +71,7 @@ class Trending extends Component {
             <View>Developers</View>
           </AtTabsPane>
         </AtTabs>
+        {repositories}
       </View>
     )
   }
