@@ -38,7 +38,7 @@ export default function trending(state = INITIAL_STATE, action) {
       }
     case FETCH_DEVELOPERS_FULFILLED:
       return {
-        ...state, isDevelopersUpdating: true
+        ...state, isDevelopersUpdating: true, developers: action.payload.data
       }
     default:
       return state

@@ -5,8 +5,9 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 
 import {connect} from "@tarojs/redux";
 import {View} from "@tarojs/components";
-import {fetchData} from "../../actions/trending";
+import {fetchDevelopers, fetchRepositories} from "../../actions/trending";
 import Repository from "./repository";
+import Developer from "./developer";
 
 type PageStateProps = {
   trending: {
@@ -18,7 +19,8 @@ type PageStateProps = {
 }
 
 type PageDispatchProps = {
-  fetchData: () => any
+  fetchDevelopers: () => any,
+  fetchRepositories: () => any
 }
 
 type PageOwnProps = {}
@@ -39,11 +41,21 @@ interface Trending {
 @connect(({trending}) => ({
   trending
 }), (dispatch) => ({
-  fetchData() {
-    dispatch(fetchData())
+  fetchDevelopers() {
+    dispatch(fetchDevelopers())
+  },
+  fetchRepositories() {
+    dispatch(fetchRepositories())
   }
 }))
 class Trending extends Component {
+  constructor () {
+    super(...arguments)
+    this.state = {
+      current: 0,
+    }
+  }
+
   handleClick (value) {
     this.setState({
       current: value
@@ -51,7 +63,8 @@ class Trending extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchData()
+    this.props.fetchDevelopers()
+    this.props.fetchRepositories()
   }
 
   render() {
@@ -61,17 +74,21 @@ class Trending extends Component {
         return (<Repository repo={repo}/>)
       }
     )
+    const developers = this.props.trending.developers.map(
+      (developer) => {
+        return (<Developer developer={developer}/>)
+      }
+    )
     return (
       <View>
         <AtTabs current={this.state.current} tabList={tabs} onClick={this.handleClick.bind(this)}>
           <AtTabsPane current={this.state.current} index={0} >
-            <View>Repositories</View>
+            {repositories}
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={1}>
-            <View>Developers</View>
+            {developers}
           </AtTabsPane>
         </AtTabs>
-        {repositories}
       </View>
     )
   }
