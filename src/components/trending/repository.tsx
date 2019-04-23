@@ -21,10 +21,16 @@ interface Repository {
 
 class Repository extends Component {
 
+  goToRepository(repo) {
+    Taro.navigateTo({
+      url: `/pages/repository?owner=${repo.author}&repo=${repo.name}`
+    })
+  }
+
   render() {
     const { repo } = this.props
     return (
-      <View>
+      <View onClick={this.goToRepository.bind(this, repo)}>
         <View className='repo-name'>{repo.name}</View>
         <View className='repo-author'>{repo.author}</View>
         <View className='repo-description'>{repo.description}</View>

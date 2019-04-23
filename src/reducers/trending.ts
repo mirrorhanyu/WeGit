@@ -1,10 +1,10 @@
 import {
-  FETCH_DEVELOPERS_FULFILLED,
-  FETCH_DEVELOPERS_PENDING,
-  FETCH_DEVELOPERS_REJECTED,
-  FETCH_REPOSITORIES_FULFILLED,
-  FETCH_REPOSITORIES_PENDING,
-  FETCH_REPOSITORIES_REJECTED
+  FETCH_TRENDING_REPOSITORIES_PENDING,
+  FETCH_TRENDING_REPOSITORIES_REJECTED,
+  FETCH_TRENDING_REPOSITORIES_FULFILLED,
+  FETCH_TRENDING_DEVELOPERS_PENDING,
+  FETCH_TRENDING_DEVELOPERS_REJECTED,
+  FETCH_TRENDING_DEVELOPERS_FULFILLED
 } from "../constants/trending";
 
 const INITIAL_STATE = {
@@ -16,27 +16,27 @@ const INITIAL_STATE = {
 
 export default function trending(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case FETCH_REPOSITORIES_PENDING:
+    case FETCH_TRENDING_REPOSITORIES_PENDING:
       return {
         ...state, isRepositoriesUpdating: false
       }
-    case FETCH_REPOSITORIES_REJECTED:
+    case FETCH_TRENDING_REPOSITORIES_REJECTED:
       return {
         ...state, isRepositoriesUpdating: true
       }
-    case FETCH_REPOSITORIES_FULFILLED:
+    case FETCH_TRENDING_REPOSITORIES_FULFILLED:
       return {
         ...state, isRepositoriesUpdating: true, repositories: action.payload.data
       }
-    case FETCH_DEVELOPERS_PENDING:
+    case FETCH_TRENDING_DEVELOPERS_PENDING:
       return {
         ...state, isDevelopersUpdating: false
       }
-    case FETCH_DEVELOPERS_REJECTED:
+    case FETCH_TRENDING_DEVELOPERS_REJECTED:
       return {
         ...state, isDevelopersUpdating: true
       }
-    case FETCH_DEVELOPERS_FULFILLED:
+    case FETCH_TRENDING_DEVELOPERS_FULFILLED:
       return {
         ...state, isDevelopersUpdating: true, developers: action.payload.data
       }
