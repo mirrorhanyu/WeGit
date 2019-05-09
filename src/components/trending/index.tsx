@@ -70,13 +70,13 @@ class Trending extends Component {
   render() {
     const tabs = [{ title: 'Repositories' }, { title: 'Developers' }]
     const repositories = this.props.trending.repositories.map(
-      (repo) => {
-        return (<Repository repo={repo}/>)
+      (repo, index) => {
+        return (<Repository key={index} repo={repo}/>)
       }
     )
     const developers = this.props.trending.developers.map(
-      (developer) => {
-        return (<Developer developer={developer}/>)
+      (developer, index) => {
+        return (<Developer key={index} developer={developer}/>)
       }
     )
     return (
