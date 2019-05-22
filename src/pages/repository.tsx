@@ -35,6 +35,12 @@ interface Repository {
 }))
 class Repository extends Component {
 
+  config = {
+    usingComponents: {
+      wemark: '../wemark/wemark'
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps)
   }
@@ -68,7 +74,7 @@ class Repository extends Component {
         <View className='repository-license'>{repositoryContent.license.name}</View>
         <View className='repository-issues'>{repositoryContent.open_issues}</View>
 
-        <View className='repository-readme'>{repositoryContent.readme}</View>
+        <wemark md={repositoryContent.readme} link='true' highlight='true' type='wemark' />
       </View>
     )
   }

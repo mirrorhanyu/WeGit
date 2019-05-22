@@ -28,11 +28,20 @@ const config = {
   },
   copy: {
     patterns: [
+      {
+        from: 'src/wemark',
+        to: 'dist/wemark',
+      }
     ],
     options: {
     }
   },
   weapp: {
+    compile: {
+      exclude: [
+        'src/wemark/remarkable.js',
+      ]
+    },
     module: {
       postcss: {
         autoprefixer: {
