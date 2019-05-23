@@ -1,8 +1,8 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import {View} from "@tarojs/components";
-import { Footer } from './footer'
-import { Trending } from './trending'
+import { Footer } from '../components/footer'
+import { Trending } from '../components/trending'
 import { connect } from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
 import { ACTIVITY, TRENDING } from "../constants/tab";
@@ -20,14 +20,14 @@ type PageOwnState = {}
 
 type IProps = PageStateProps & PageOwnProps
 
-interface Index {
+interface Home {
   props: IProps,
 }
 
 @connect(({ tab }) => ({
   tab
 }))
-class Index extends Component {
+class Home extends Component<PageOwnProps, PageOwnState> {
 
   config: Config = {
     navigationBarTitleText: 'Home'
@@ -54,4 +54,4 @@ class Index extends Component {
   }
 }
 
-export default Index as ComponentClass<PageOwnProps, PageOwnState>
+export default Home as ComponentClass<PageOwnProps, PageOwnState>

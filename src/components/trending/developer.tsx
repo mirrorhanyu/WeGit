@@ -2,13 +2,14 @@ import {ComponentClass} from "react";
 import Taro, {Component} from '@tarojs/taro'
 
 import {View} from "@tarojs/components";
+import {IDeveloper} from "../../models/developer";
 
 type PageStateProps = {}
 
 type PageDispatchProps = {}
 
 type PageOwnProps = {
-  developer: object
+  developer: IDeveloper
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps

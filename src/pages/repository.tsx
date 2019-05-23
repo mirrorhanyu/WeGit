@@ -1,13 +1,14 @@
-import {ComponentClass} from 'react'
+import { ComponentClass } from 'react';
 import Taro, {Component} from '@tarojs/taro'
 import {View} from "@tarojs/components";
 import {connect} from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
-import {fetchRepositoryContent} from "../actions/repository";
+import fetchRepositoryContent from "../actions/repository";
+import {IRepositoryContent} from '../models/RepositoryContent';
 
 type PageStateProps = {
   repository: {
-    repositoryContent: object,
+    repositoryContent: IRepositoryContent,
     isRepositoryContentUpdating: boolean
   }
 }
@@ -57,7 +58,7 @@ class Repository extends Component {
   }
 
   render() {
-    const {repositoryContent, isRepositoryContentUpdating} = this.props.repository
+    const {repositoryContent} = this.props.repository
     return (
       <View className='repository'>
         <View className='repository-name'>{repositoryContent.name}</View>

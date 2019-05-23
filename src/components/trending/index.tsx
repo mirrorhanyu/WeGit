@@ -8,13 +8,15 @@ import {View} from "@tarojs/components";
 import {fetchDevelopers, fetchRepositories} from "../../actions/trending";
 import Repository from "./repository";
 import Developer from "./developer";
+import {IRepository} from "../../models/repository";
+import {IDeveloper} from "../../models/developer";
 
 type PageStateProps = {
   trending: {
     isRepositoriesUpdating: boolean,
     isDevelopersUpdating: boolean,
-    repositories: object[],
-    developers: object[]
+    repositories: IRepository[],
+    developers: IDeveloper[]
   }
 }
 

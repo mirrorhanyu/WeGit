@@ -5,7 +5,7 @@ import {
   FETCH_REPOSITORY_CONTENT_FULFILLED
 } from "../constants/repository";
 
-export const fetchRepositoryContent = (owner, repo) => {
+const fetchRepositoryContent = (owner, repo) => {
   return async (dispatch) => {
     try {
       dispatch({ type: FETCH_REPOSITORY_CONTENT_PENDING})
@@ -19,4 +19,8 @@ export const fetchRepositoryContent = (owner, repo) => {
       dispatch({ type: FETCH_REPOSITORY_CONTENT_REJECTED, payload: e })
     }
   }
+}
+
+export {
+  fetchRepositoryContent as default
 }

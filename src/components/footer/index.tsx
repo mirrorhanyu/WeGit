@@ -3,7 +3,7 @@ import Taro, {Component} from '@tarojs/taro'
 import {AtTabBar} from 'taro-ui'
 
 import {connect} from "@tarojs/redux";
-import {switchTab} from "../../actions/tab";
+import switchTab from "../../actions/tab";
 
 type PageStateProps = {
   tab: {
