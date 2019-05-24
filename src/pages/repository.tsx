@@ -21,10 +21,16 @@ type PageOwnProps = {}
 
 type IProps = PageStateProps & PageOwnProps & PageDispatchProps
 
-type PageOwnState = {}
+type PageOwnState = {
+  owner: string,
+  repo: string
+}
+
+type IState = PageOwnState
 
 interface Repository {
   props: IProps,
+  state: IState
 }
 
 @connect(({repository}) => ({
@@ -48,6 +54,7 @@ class Repository extends Component {
 
   componentWillMount() {
     let {owner, repo} = this.$router.params
+    this.setState({owner, repo})
     this.props.fetchRepositoryContent(owner, repo)
   }
 
@@ -59,8 +66,14 @@ class Repository extends Component {
 
   render() {
     const {repositoryContent} = this.props.repository
+    const {owner, repo} = this.state
+    const baseurl = 'https://raw.githubusercontent.com/' + owner + '/' + repo + '/master'
+
     return (
       <View className='repository'>
+        <View>{owner}</View>
+        <View>{repo}</View>
+
         <View className='repository-name'>{repositoryContent.name}</View>
         <View className='repository-description'>{repositoryContent.description}</View>
         <View className='repository-watch'>{repositoryContent.subscribers_count}</View>
@@ -75,7 +88,7 @@ class Repository extends Component {
         <View className='repository-license'>{repositoryContent.license.name}</View>
         <View className='repository-issues'>{repositoryContent.open_issues}</View>
 
-        <wemark md={repositoryContent.readme} link='true' highlight='true' type='wemark' />
+        <wemark md={repositoryContent.readme} link='true' baseurl={baseurl} highlight='true' type='wemark' />
       </View>
     )
   }
