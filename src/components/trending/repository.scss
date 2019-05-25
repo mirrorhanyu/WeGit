@@ -1,0 +1,16 @@
+.repo-basic-info, .repo-data {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.repo-name {
+  margin-left: 10px;
+}
+
+.repo-description {
+  margin: 10px 0;
+}
+
+.repo-language, .repo-stars {
+  margin-right: 40px;
+}

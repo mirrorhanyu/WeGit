@@ -7,6 +7,7 @@ import { connect } from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
 import { ACTIVITY, TRENDING } from "../constants/tab";
 
+import './home.scss'
 
 type PageStateProps = {
   tab: {
@@ -30,7 +31,7 @@ interface Home {
 class Home extends Component<PageOwnProps, PageOwnState> {
 
   config: Config = {
-    navigationBarTitleText: 'Home'
+    navigationBarTitleText: 'Trending'
   }
 
   componentWillReceiveProps (nextProps) {
@@ -45,7 +46,7 @@ class Home extends Component<PageOwnProps, PageOwnState> {
 
   render () {
     return (
-      <View className='index'>
+      <View className='home'>
         {this.props.tab.current === TRENDING && <Trending /> }
         {this.props.tab.current === ACTIVITY && <View>World</View> }
         <Footer />

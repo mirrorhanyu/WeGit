@@ -4,5 +4,6 @@ export interface IRepository {
   description: string;
   language: string;
   stars: number;
+  forks: number;
   currentPeriodStars: number;
 }

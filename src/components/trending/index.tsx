@@ -11,6 +11,8 @@ import Developer from "./developer";
 import {IRepository} from "../../models/repository";
 import {IDeveloper} from "../../models/developer";
 
+import './index.scss';
+
 type PageStateProps = {
   trending: {
     isRepositoriesUpdating: boolean,
@@ -85,10 +87,10 @@ class Trending extends Component {
       <View>
         <AtTabs current={this.state.current} tabList={tabs} onClick={this.handleClick.bind(this)}>
           <AtTabsPane current={this.state.current} index={0} >
-            {repositories}
+            <View className='repositories'>{repositories}</View>
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={1}>
-            {developers}
+            <View className='developers'>{developers}</View>
           </AtTabsPane>
         </AtTabs>
       </View>

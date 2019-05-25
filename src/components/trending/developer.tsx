@@ -4,6 +4,8 @@ import Taro, {Component} from '@tarojs/taro'
 import {View} from "@tarojs/components";
 import {IDeveloper} from "../../models/developer";
 
+import '../../common.scss'
+
 type PageStateProps = {}
 
 type PageDispatchProps = {}
@@ -25,7 +27,7 @@ class Developer extends Component {
   render() {
     const { developer } = this.props
     return (
-      <View>
+      <View className='card'>
         <View className='developer-username'>{developer.username}</View>
         <View className='developer-avatar'>{developer.avatar}</View>
         <View className='developer-repo-name'>{developer.repo.name}</View>
