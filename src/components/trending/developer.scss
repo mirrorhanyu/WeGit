@@ -1,0 +1,17 @@
+.developer, .developer-repo-name {
+  display: flex;
+  align-items: flex-start;
+}
+
+.developer-avatar {
+  margin: 15px;
+}
+
+.developer-info {
+  margin: 10px 0 10px 25px;
+}
+
+.developer-repo-name {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

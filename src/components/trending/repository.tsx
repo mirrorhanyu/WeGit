@@ -44,7 +44,7 @@ class Repository extends Component {
 
     return (
       <View className='card' onClick={this.goToRepository.bind(this, repo)}>
-        <View className='repo-basic-info card-title'>
+        <View className='repo-basic-info'>
           <AtIcon className='repo-icon' prefixClass='fa' value='book' size='18'/>
           <View className='repo-name'>{repo.author}/{repo.name}</View>
         </View>
