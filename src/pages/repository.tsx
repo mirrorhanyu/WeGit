@@ -1,10 +1,14 @@
 import { ComponentClass } from 'react';
-import Taro, {Component} from '@tarojs/taro'
+import Taro, {Component, PageConfig} from '@tarojs/taro'
 import {View} from "@tarojs/components";
 import {connect} from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
 import fetchRepositoryContent from "../actions/repository";
 import {IRepositoryContent} from '../models/RepositoryContent';
+import { AtIcon, AtList, AtListItem } from 'taro-ui'
+
+import '../common.scss';
+import './repository.scss';
 
 type PageStateProps = {
   repository: {
@@ -42,14 +46,10 @@ interface Repository {
 }))
 class Repository extends Component {
 
-  config = {
-    usingComponents: {
-      wemark: '../wemark/wemark'
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps)
+  config: PageConfig = {
+    navigationBarTitleText: '',
+    navigationBarBackgroundColor: '#4bbf6b',
+    navigationBarTextStyle: 'white'
   }
 
   componentWillMount() {
@@ -71,24 +71,61 @@ class Repository extends Component {
 
     return (
       <View className='repository'>
-        <View>{owner}</View>
-        <View>{repo}</View>
+        <View className='repository-header'>
+          <View className='repository-name'>{repositoryContent.name}</View>
+          <View className='repository-description card-content'>{repositoryContent.description}</View>
+        </View>
 
-        <View className='repository-name'>{repositoryContent.name}</View>
-        <View className='repository-description'>{repositoryContent.description}</View>
-        <View className='repository-watch'>{repositoryContent.subscribers_count}</View>
-        <View className='repository-star'>{repositoryContent.stargazers_count}</View>
-        <View className='repository-fork'>{repositoryContent.forks}</View>
-        <View className='repository-share'>share</View>
-        <View className='repository-save'>save</View>
-        <View className='repository-copy'>copy</View>
+        <View className='card text-gray repository-operations'>
+          <View className='repository-watch operation'>
+            <AtIcon prefixClass='fas' value='eye' size='28'/>
+            <View className='repo-watch card-content'>{repositoryContent.subscribers_count}</View>
+          </View>
+          <View className='repository-star operation'>
+            <AtIcon prefixClass='fas' value='star' size='28'/>
+            <View className='repo-star card-content'>{repositoryContent.stargazers_count}</View>
+          </View>
+          <View className='repository-fork operation'>
+            <AtIcon prefixClass='fas' value='code-branch' size='28'/>
+            <View className='repo-fork card-content'>{repositoryContent.forks}</View>
+          </View>
+          <View className='repository-share operation'>
+            <AtIcon prefixClass='fas' value='code-branch' size='28'/>
+            <View className='repo-share card-content'>share</View>
+          </View>
+          <View className='repository-save operation'>
+            <AtIcon prefixClass='fas' value='images' size='28'/>
+            <View className='repo-save card-content'>save</View>
+          </View>
+          <View className='repository-copy operation'>
+            <AtIcon prefixClass='fas' value='link' size='28'/>
+            <View className='repo-copy card-content'>copy</View>
+          </View>
+        </View>
 
-        <View className='repository-author'>{repositoryContent.owner.login}</View>
-        <View className='repository-code'>view code</View>
-        <View className='repository-license'>{repositoryContent.license.name}</View>
-        <View className='repository-issues'>{repositoryContent.open_issues}</View>
+        <View className='card card-content'>
+          <AtList hasBorder={false}>
+            <AtListItem hasBorder={false} title='Author' arrow='right' extraText={repositoryContent.owner.login}/>
+            <AtListItem hasBorder={false} title='View Code' arrow='right'/>
+            <AtListItem hasBorder={false} title='License' extraText={repositoryContent.owner.login && '--'}/>
+          </AtList>
+        </View>
 
-        <wemark md={repositoryContent.readme} link='true' baseurl={baseurl} highlight='true' type='wemark' />
+        <View className='card card-content'>
+          <AtList hasBorder={false}>
+            <AtListItem hasBorder={false} title='Issues' arrow='right' extraText={repositoryContent.open_issues.toString()}/>
+            <AtListItem hasBorder={false} title='Contributors' arrow='right'/>
+          </AtList>
+        </View>
+
+        <View className='card card-content'>
+          <View className='repository-readme'>
+            <AtIcon prefixClass='fas' value='book-reader' size='16'/>
+            <View>README.md</View>
+          </View>
+          <wemark md={repositoryContent.readme} link='true' baseurl={baseurl} highlight='true' type='wemark' />
+        </View>
+
       </View>
     )
   }

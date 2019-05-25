@@ -35,6 +35,9 @@ class App extends Component {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    usingComponents: {
+      wemark: './wemark/wemark'
     }
   }
 
