@@ -45,7 +45,7 @@ class Repository extends Component {
     return (
       <View className='card' onClick={this.goToRepository.bind(this, repo)}>
         <View className='repo-basic-info'>
-          <AtIcon className='repo-icon' prefixClass='fa' value='book' size='18'/>
+          <AtIcon className='repo-icon' prefixClass='fas' value='book' size='18'/>
           <View className='repo-name'>{repo.author}/{repo.name}</View>
         </View>
 
@@ -55,7 +55,7 @@ class Repository extends Component {
           {
             repo.language && (
               <View className='repo-language'>
-                <AtIcon className='repo-icon' prefixClass='fa' value='dot-circle' size='16'/>
+                <AtIcon className='repo-icon' prefixClass='fas' value='dot-circle' size='16'/>
                 {repo.language}
               </View>
             )
@@ -63,7 +63,7 @@ class Repository extends Component {
           {
             repo.stars && (
               <View className='repo-stars'>
-                <AtIcon className='repo-icon' prefixClass='fa' value='star' size='16'/>
+                <AtIcon className='repo-icon' prefixClass='fas' value='star' size='16'/>
                 {repo.stars}
               </View>
             )
@@ -71,7 +71,7 @@ class Repository extends Component {
           {
             repo.forks && (
               <View className='repo-stars'>
-                <AtIcon className='repo-icon' prefixClass='fa' value='code-branch' size='16'/>
+                <AtIcon className='repo-icon' prefixClass='fas' value='code-branch' size='16'/>
                 {repo.forks}
               </View>
             )
@@ -79,7 +79,7 @@ class Repository extends Component {
           {
             repo.currentPeriodStars && (
               <View className='repo-current-period-stars'>
-                <AtIcon className='repo-icon' prefixClass='fa' value={heatIcon} size='16'/>
+                <AtIcon className='repo-icon' prefixClass='fas' value={heatIcon} size='16'/>
                 {repo.currentPeriodStars}
               </View>
             )

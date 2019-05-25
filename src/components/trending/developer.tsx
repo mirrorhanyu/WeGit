@@ -44,7 +44,7 @@ class Developer extends Component {
           <View className='developer-username'>{developer.username}</View>
 
           <View className='developer-repo-name'>
-            <AtIcon className='repo-icon' prefixClass='fa' value='book' size='16'/>
+            <AtIcon className='repo-icon' prefixClass='fas' value='book' size='16'/>
             <View className='repo-name text-blue' onClick={this.goToRepository.bind(this, developer.username, developer.repo.name)}>{developer.repo.name}</View>
           </View>
 

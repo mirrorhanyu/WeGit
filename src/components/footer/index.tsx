@@ -38,9 +38,13 @@ class Footer extends Component {
       <AtTabBar
         fixed
         tabList={[
-          {title: 'Trending', iconType: 'bullet-list'},
-          {title: 'Activity', iconType: 'camera'},
+          {title: 'Trending', iconPrefixClass: 'far', iconType: 'chart-bar'},
+          {title: 'Activity', iconPrefixClass: 'far', iconType: 'paper-plane'},
+          {title: 'Search', iconPrefixClass: 'fas', iconType: 'search'}
         ]}
+        color='#868686'
+        fontSize={10}
+        iconSize={22}
         onClick={this.props.switchTab}
         current={this.props.tab.current}
       />

@@ -5,7 +5,7 @@ import { Footer } from '../components/footer'
 import { Trending } from '../components/trending'
 import { connect } from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
-import { ACTIVITY, TRENDING } from "../constants/tab";
+import { ACTIVITY, TRENDING, SEARCH } from "../constants/tab";
 
 import './home.scss'
 
@@ -48,7 +48,8 @@ class Home extends Component<PageOwnProps, PageOwnState> {
     return (
       <View className='home'>
         {this.props.tab.current === TRENDING && <Trending /> }
-        {this.props.tab.current === ACTIVITY && <View>World</View> }
+        {this.props.tab.current === ACTIVITY && <View>activity</View> }
+        {this.props.tab.current === SEARCH && <View>search</View> }
         <Footer />
       </View>
     )

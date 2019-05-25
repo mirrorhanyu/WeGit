@@ -3,7 +3,7 @@ page {
 }
 
 @font-face {
-  font-family: 'FontAwesome';
+  font-family: 'FontAwesomeSolid';
   /* 自行安装第三方字体图标库 */
   src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-solid-900.eot');
   src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-solid-900.eot?#iefix&v=5.8.2') format('embedded-opentype'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-solid-900.woff2?v=5.8.2') format('woff2'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-solid-900.woff?v=5.8.2') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-solid-900.ttf?v=5.8.2') format('truetype'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-solid-900.svg?v=5.8.2#fontawesomeregular') format('svg');
@@ -11,41 +11,69 @@ page {
   font-style: normal;
 }
 /* 根据第三方字体图标库编写 */
-/* 举例：fa 就是 prefixClass 的值，下面的的图标 css class 命名都要用 fa- 开头  */
-.fa {
+/* 举例：fas 就是 prefixClass 的值，下面的的图标 css class 命名都要用 fa- 开头  */
+.fas {
   display: inline-block;
   /* 以下的 font 与上面 @font-face 的 font-family 要一致*/
-  font: normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesomeSolid;
   font-size: inherit;
   text-rendering: auto;
   margin-right: 8px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.fa-book:before {
+.fas-book:before {
   content: '\f02d';
 }
-.fa-dot-circle:before {
+.fas-dot-circle:before {
   content: '\f192';
 }
-.fa-star:before {
+.fas-star:before {
   content: '\f005';
 }
 .fa-thermometer-empty:before{
   content: '\f2cb';
 }
-.fa-thermometer-quarter:before{
+.fas-thermometer-quarter:before{
   content: '\f2ca';
 }
-.fa-thermometer-half:before{
+.fas-thermometer-half:before{
   content: '\f2c9';
 }
-.fa-thermometer-three-quarters:before{
+.fas-thermometer-three-quarters:before{
   content: '\f2c8';
 }
-.fa-thermometer-full:before{
+.fas-thermometer-full:before{
   content: '\f2c7';
 }
-.fa-code-branch:before {
+.fas-code-branch:before {
   content: '\f126';
 }
+.fas-search:before {
+  content: '\f002';
+}
+
+
+@font-face {
+  font-family: 'FontAwesomeRegular';
+  src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-regular-400.eot');
+  src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-regular-400.eot?#iefix&v=5.8.2') format('embedded-opentype'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-regular-400.woff2?v=5.8.2') format('woff2'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-regular-400.woff?v=5.8.2') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-regular-400.ttf?v=5.8.2') format('truetype'), url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/webfonts/fa-regular-400.svg?v=5.8.2#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.far {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesomeRegular;
+  font-size: inherit;
+  text-rendering: auto;
+  margin-right: 8px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.far-chart-bar:before {
+  content: '\f080';
+}
+.far-paper-plane:before {
+  content: '\f1d8';
+}
+
