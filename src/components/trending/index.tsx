@@ -27,7 +27,9 @@ type PageDispatchProps = {
   fetchRepositories: () => any
 }
 
-type PageOwnProps = {}
+type PageOwnProps = {
+  pullDownRefreshAt: number;
+}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
@@ -53,8 +55,12 @@ interface Trending {
   }
 }))
 class Trending extends Component {
+
+  REPOSITORIES_TAB: number = 0;
+  DEVELOPERS_TAB: number = 1;
+
   constructor () {
-    super(...arguments)
+    super(...arguments);
     this.state = {
       current: 0,
     }
@@ -64,6 +70,21 @@ class Trending extends Component {
     this.setState({
       current: value
     })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.pullDownRefreshAt && nextProps.pullDownRefreshAt && this.props.pullDownRefreshAt != nextProps.pullDownRefreshAt) {
+      switch (this.state.current) {
+        case this.REPOSITORIES_TAB:
+          this.props.fetchRepositories();
+          break;
+        case this.DEVELOPERS_TAB:
+          this.props.fetchDevelopers();
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   componentDidMount() {
@@ -90,10 +111,10 @@ class Trending extends Component {
     return (
       <View>
         <AtTabs current={this.state.current} tabList={tabs} onClick={this.handleClick.bind(this)}>
-          <AtTabsPane current={this.state.current} index={0} >
+          <AtTabsPane current={this.state.current} index={this.REPOSITORIES_TAB} >
             <View className='repositories'>{repositories}</View>
           </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={1}>
+          <AtTabsPane current={this.state.current} index={this.DEVELOPERS_TAB}>
             <View className='developers'>{developers}</View>
           </AtTabsPane>
         </AtTabs>
