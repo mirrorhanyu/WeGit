@@ -13,7 +13,7 @@ import './repository.scss';
 type PageStateProps = {
   repository: {
     repositoryContent: IRepositoryContent,
-    isRepositoryContentUpdating: boolean
+    isRepositoryContentUpdated: boolean
   }
 }
 
@@ -72,9 +72,9 @@ class Repository extends Component {
   }
 
   render() {
-    const {repositoryContent, isRepositoryContentUpdating} = this.props.repository
+    const {repositoryContent, isRepositoryContentUpdated} = this.props.repository
 
-    if (isRepositoryContentUpdating) {
+    if (!isRepositoryContentUpdated) {
       return;
     }
 

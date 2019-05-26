@@ -5,7 +5,7 @@ import {
 } from "../constants/repository"
 
 const INITIAL_STATE = {
-  isRepositoryContentUpdating: true,
+  isRepositoryContentUpdated: false,
   repositoryContent: {},
 }
 
@@ -13,15 +13,15 @@ export default function repository(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_REPOSITORY_CONTENT_PENDING:
       return {
-        ...state, isRepositoryContentUpdating: true
+        ...state, isRepositoryContentUpdated: false
       }
     case FETCH_REPOSITORY_CONTENT_REJECTED:
       return {
-        ...state, isRepositoryContentUpdating: false
+        ...state, isRepositoryContentUpdated: true
       }
     case FETCH_REPOSITORY_CONTENT_FULFILLED:
       return {
-        ...state, isRepositoryContentUpdating: false, repositoryContent: action.payload.data
+        ...state, isRepositoryContentUpdated: true, repositoryContent: action.payload.data
       }
     default:
       return state

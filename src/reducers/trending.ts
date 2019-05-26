@@ -8,8 +8,8 @@ import {
 } from "../constants/trending";
 
 const INITIAL_STATE = {
-  isRepositoriesUpdating: true,
-  isDevelopersUpdating: true,
+  isRepositoriesUpdated: false,
+  isDevelopersUpdated: false,
   repositories: [],
   developers: []
 }
@@ -18,27 +18,27 @@ export default function trending(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_TRENDING_REPOSITORIES_PENDING:
       return {
-        ...state, isRepositoriesUpdating: true
+        ...state, isRepositoriesUpdated: false
       }
     case FETCH_TRENDING_REPOSITORIES_REJECTED:
       return {
-        ...state, isRepositoriesUpdating: false
+        ...state, isRepositoriesUpdated: true
       }
     case FETCH_TRENDING_REPOSITORIES_FULFILLED:
       return {
-        ...state, isRepositoriesUpdating: false, repositories: action.payload.data
+        ...state, isRepositoriesUpdated: true, repositories: action.payload.data
       }
     case FETCH_TRENDING_DEVELOPERS_PENDING:
       return {
-        ...state, isDevelopersUpdating: true
+        ...state, isDevelopersUpdated: false
       }
     case FETCH_TRENDING_DEVELOPERS_REJECTED:
       return {
-        ...state, isDevelopersUpdating: false
+        ...state, isDevelopersUpdated: true
       }
     case FETCH_TRENDING_DEVELOPERS_FULFILLED:
       return {
-        ...state, isDevelopersUpdating: false, developers: action.payload.data
+        ...state, isDevelopersUpdated: true, developers: action.payload.data
       }
     default:
       return state

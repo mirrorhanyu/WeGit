@@ -15,8 +15,8 @@ import './index.scss';
 
 type PageStateProps = {
   trending: {
-    isRepositoriesUpdating: boolean,
-    isDevelopersUpdating: boolean,
+    isRepositoriesUpdated: boolean,
+    isDevelopersUpdated: boolean,
     repositories: IRepository[],
     developers: IDeveloper[]
   }
@@ -67,8 +67,12 @@ class Trending extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchDevelopers()
-    this.props.fetchRepositories()
+    if (!this.props.trending.isRepositoriesUpdated) {
+      this.props.fetchRepositories()
+    }
+    if (!this.props.trending.isDevelopersUpdated) {
+      this.props.fetchDevelopers()
+    }
   }
 
   render() {
