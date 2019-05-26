@@ -1,3 +1,5 @@
+$green: #4bbf6b;
+
 .repository {
   padding-bottom: 10px;
 }
@@ -10,7 +12,7 @@
 
 .repository-header {
   padding: 20px 30px;
-  background-color: #4bbf6b;
+  background-color: $green;
   color: #ffffff;
 }
 

@@ -18,27 +18,27 @@ export default function trending(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_TRENDING_REPOSITORIES_PENDING:
       return {
-        ...state, isRepositoriesUpdating: false
+        ...state, isRepositoriesUpdating: true
       }
     case FETCH_TRENDING_REPOSITORIES_REJECTED:
       return {
-        ...state, isRepositoriesUpdating: true
+        ...state, isRepositoriesUpdating: false
       }
     case FETCH_TRENDING_REPOSITORIES_FULFILLED:
       return {
-        ...state, isRepositoriesUpdating: true, repositories: action.payload.data
+        ...state, isRepositoriesUpdating: false, repositories: action.payload.data
       }
     case FETCH_TRENDING_DEVELOPERS_PENDING:
       return {
-        ...state, isDevelopersUpdating: false
+        ...state, isDevelopersUpdating: true
       }
     case FETCH_TRENDING_DEVELOPERS_REJECTED:
       return {
-        ...state, isDevelopersUpdating: true
+        ...state, isDevelopersUpdating: false
       }
     case FETCH_TRENDING_DEVELOPERS_FULFILLED:
       return {
-        ...state, isDevelopersUpdating: true, developers: action.payload.data
+        ...state, isDevelopersUpdating: false, developers: action.payload.data
       }
     default:
       return state

@@ -64,8 +64,20 @@ class Repository extends Component {
   componentDidHide() {
   }
 
+  onPageScroll(e) {
+    let scrollOffset = e.scrollTop;
+    Taro.setNavigationBarTitle({
+      title: scrollOffset > 0 ? this.state.repo : ''
+    })
+  }
+
   render() {
-    const {repositoryContent} = this.props.repository
+    const {repositoryContent, isRepositoryContentUpdating} = this.props.repository
+
+    if (isRepositoryContentUpdating) {
+      return;
+    }
+
     const {owner, repo} = this.state
     const baseurl = 'https://raw.githubusercontent.com/' + owner + '/' + repo + '/master'
 
@@ -123,7 +135,7 @@ class Repository extends Component {
             <AtIcon prefixClass='fas' value='book-reader' size='16'/>
             <View>README.md</View>
           </View>
-          <wemark md={repositoryContent.readme} link='true' baseurl={baseurl} highlight='true' type='wemark' />
+          <wemark md={repositoryContent.readme} link='true' baseurl={baseurl} highlight='true' type='wemark'/>
         </View>
 
       </View>
