@@ -1,4 +1,9 @@
-.repo-basic-info, .repo-data {
+.repo-basic-info {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.repo-data {
   display: flex;
   flex-wrap: wrap;
 }
