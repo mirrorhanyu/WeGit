@@ -77,6 +77,12 @@ class Repository extends Component {
     }
   }
 
+  copy() {
+    Taro.setClipboardData({
+      data: `https://github.com/${this.state.owner}/${this.state.repo}`
+    });
+  }
+
   render() {
     const {repositoryContent, isRepositoryContentUpdated} = this.props.repository
 
@@ -131,7 +137,7 @@ class Repository extends Component {
           </View>
 
           <View className='repository-copy operation'>
-            <Button className='text-gray'>
+            <Button className='text-gray' onClick={this.copy.bind(this)}>
               <AtIcon prefixClass='fas' value='link' size='28'/>
             </Button>
             <View className='repo-copy card-content'>copy</View>
