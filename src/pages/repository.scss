@@ -45,3 +45,13 @@ $green: #4bbf6b;
   margin-right: 8px;
 }
 
+.operation button {
+  background: none;
+  margin: 0;
+  padding: 0 30px;
+  height: 80px;
+}
+
+.operation button::after {
+  border: none;
+}

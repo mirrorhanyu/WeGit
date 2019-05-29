@@ -1,11 +1,11 @@
-import { ComponentClass } from 'react';
+import {ComponentClass} from 'react';
 import Taro, {Component, PageConfig} from '@tarojs/taro'
-import {View} from "@tarojs/components";
+import {Button, View} from "@tarojs/components";
 import {connect} from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
 import fetchRepositoryContent from "../actions/repository";
 import {IRepositoryContent} from '../models/RepositoryContent';
-import { AtIcon, AtList, AtListItem } from 'taro-ui'
+import {AtIcon, AtList, AtListItem} from 'taro-ui'
 
 import '../common.scss';
 import './repository.scss';
@@ -71,6 +71,12 @@ class Repository extends Component {
     })
   }
 
+  onShareAppMessage() {
+    return {
+      title: `${this.props.repository.repositoryContent.name} from unofficial Github WeChat Mini-Programs`
+    }
+  }
+
   render() {
     const {repositoryContent, isRepositoryContentUpdated} = this.props.repository
 
@@ -90,27 +96,44 @@ class Repository extends Component {
 
         <View className='card text-gray repository-operations'>
           <View className='repository-watch operation'>
-            <AtIcon prefixClass='fas' value='eye' size='28'/>
+            <Button className='text-gray'>
+              <AtIcon prefixClass='fas' value='eye' size='28'/>
+            </Button>
             <View className='repo-watch card-content'>{repositoryContent.subscribers_count}</View>
           </View>
+
           <View className='repository-star operation'>
-            <AtIcon prefixClass='fas' value='star' size='28'/>
+            <Button className='text-gray'>
+              <AtIcon prefixClass='fas' value='star' size='28'/>
+            </Button>
             <View className='repo-star card-content'>{repositoryContent.stargazers_count}</View>
           </View>
+
           <View className='repository-fork operation'>
-            <AtIcon prefixClass='fas' value='code-branch' size='28'/>
+            <Button className='text-gray'>
+              <AtIcon prefixClass='fas' value='code-branch' size='28'/>
+            </Button>
             <View className='repo-fork card-content'>{repositoryContent.forks}</View>
           </View>
+
           <View className='repository-share operation'>
-            <AtIcon prefixClass='fas' value='code-branch' size='28'/>
+            <Button className='text-gray' open-type='share'>
+              <AtIcon prefixClass='fas' value='share' size='28'/>
+            </Button>
             <View className='repo-share card-content'>share</View>
           </View>
+
           <View className='repository-save operation'>
-            <AtIcon prefixClass='fas' value='images' size='28'/>
+            <Button className='text-gray'>
+              <AtIcon prefixClass='fas' value='images' size='28'/>
+            </Button>
             <View className='repo-save card-content'>save</View>
           </View>
+
           <View className='repository-copy operation'>
-            <AtIcon prefixClass='fas' value='link' size='28'/>
+            <Button className='text-gray'>
+              <AtIcon prefixClass='fas' value='link' size='28'/>
+            </Button>
             <View className='repo-copy card-content'>copy</View>
           </View>
         </View>
