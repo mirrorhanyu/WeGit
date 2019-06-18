@@ -3,7 +3,7 @@ import Taro, {Component} from '@tarojs/taro'
 import { AtAvatar, AtIcon } from 'taro-ui'
 
 import {View} from "@tarojs/components";
-import {IDeveloper} from "../../models/developer";
+import {IDeveloper} from "../../types/developer";
 
 import '../../common.scss'
 import './developer.scss'
@@ -32,10 +32,16 @@ class Developer extends Component {
     })
   }
 
+  goToDeveloper(name) {
+    Taro.navigateTo({
+      url: `/pages/developer?name=${name}`
+    })
+  }
+
   render() {
     const { developer } = this.props
     return (
-      <View className='card developer'>
+      <View className='card developer' onClick={this.goToDeveloper.bind(this, developer.username)}>
         <View className='developer-avatar' >
           <AtAvatar image={developer.avatar}/>
         </View>

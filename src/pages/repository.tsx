@@ -4,7 +4,7 @@ import {Button, View} from "@tarojs/components";
 import {connect} from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
 import fetchRepositoryContent from "../actions/repository";
-import {IRepositoryContent} from '../models/RepositoryContent';
+import {IRepositoryContent} from '../types/RepositoryContent';
 import {AtIcon, AtList, AtListItem} from 'taro-ui'
 
 import '../common.scss';
@@ -148,7 +148,7 @@ class Repository extends Component {
           <AtList hasBorder={false}>
             <AtListItem hasBorder={false} title='Author' arrow='right' extraText={repositoryContent.owner.login}/>
             <AtListItem hasBorder={false} title='View Code' arrow='right'/>
-            <AtListItem hasBorder={false} title='License' extraText={repositoryContent.owner.login && '--'}/>
+            <AtListItem hasBorder={false} title='License' extraText={repositoryContent.owner.login || '--'}/>
           </AtList>
         </View>
 

@@ -8,8 +8,8 @@ import {View} from "@tarojs/components";
 import {fetchDevelopers, fetchRepositories} from "../../actions/trending";
 import Repository from "./repository";
 import Developer from "./developer";
-import {IRepository} from "../../models/repository";
-import {IDeveloper} from "../../models/developer";
+import {IRepository} from "../../types/repository";
+import {IDeveloper} from "../../types/developer";
 
 import './index.scss';
 

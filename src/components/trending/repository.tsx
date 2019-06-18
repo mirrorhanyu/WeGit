@@ -3,7 +3,7 @@ import Taro, {Component} from '@tarojs/taro'
 import { AtIcon } from 'taro-ui';
 
 import {View} from "@tarojs/components";
-import {IRepository} from "../../models/repository";
+import {IRepository} from "../../types/repository";
 
 import '../../common.scss'
 import './repository.scss'

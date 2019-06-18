@@ -28,7 +28,8 @@ class App extends Component {
   config: Config = {
     pages: [
       'pages/home',
-      'pages/repository'
+      'pages/repository',
+      'pages/developer'
     ],
     window: {
       backgroundTextStyle: 'light',
