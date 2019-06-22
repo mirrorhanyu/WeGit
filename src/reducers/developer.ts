@@ -3,7 +3,6 @@ import {
   FETCH_DEVELOPER_CONTENT_REJECTED,
   FETCH_DEVELOPER_CONTENT_FULFILLED
 } from "../constants/developer"
-import IDeveloperContent from "../types/developerContent";
 
 const INITIAL_STATE = {
   isDeveloperContentUpdated: false,
@@ -22,7 +21,7 @@ export default function developer(state = INITIAL_STATE, action) {
       }
     case FETCH_DEVELOPER_CONTENT_FULFILLED:
       return {
-        ...state, isDeveloperContentUpdated: true, developerContent: new IDeveloperContent(action.payload.data)
+        ...state, isDeveloperContentUpdated: true, developerContent: action.payload
       }
     default:
       return state

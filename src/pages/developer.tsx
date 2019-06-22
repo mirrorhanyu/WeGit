@@ -2,16 +2,17 @@ import {ComponentClass} from 'react';
 import Taro, {Component, PageConfig} from '@tarojs/taro'
 import {View, Text} from "@tarojs/components";
 import {connect} from '@tarojs/redux'
-import IDeveloperContent from '../types/developerContent';
+import DeveloperContent from '../types/developerContent';
 import 'taro-ui/dist/style/index.scss'
 import fetchDeveloperContent from "../actions/developer";
 
+import './developer.scss';
 import '../common.scss';
 import { AtAvatar, AtList, AtListItem } from 'taro-ui'
 
 type PageStateProps = {
   developer: {
-    developerContent: IDeveloperContent,
+    developerContent: DeveloperContent,
     isDeveloperContentUpdated: boolean
   }
 }
@@ -46,7 +47,7 @@ class Developer extends Component {
 
   config: PageConfig = {
     navigationBarTitleText: '',
-    navigationBarBackgroundColor: '#4bbf6b',
+    navigationBarBackgroundColor: '#a29bfe',
     navigationBarTextStyle: 'white'
   }
 
@@ -68,29 +69,29 @@ class Developer extends Component {
         <View className="developer-name">
           <AtAvatar image={developerContent.avatar} circle={true} />
           <Text className="developer-fullname">{developerContent.name}</Text>
-          <Text className="developer-nickname">{developerContent.nickname}</Text>
+          <Text className="developer-nickname">@{developerContent.nickname}</Text>
         </View>
 
-        <View className="developer-info">
-          <Text className="developer-bio">{developerContent.bio}</Text>
+        <View className="developer-info card">
+          <View className="developer-bio text-gray">{developerContent.bio}</View>
           <View className="developer-data">
             <View className="developer-repos">
               <Text>{developerContent.repos}</Text>
-              <Text>Repositories</Text>
+              <Text className="text-gray">Repositories</Text>
             </View>
             <View className="developer-followers">
               <Text>{developerContent.followers}</Text>
-              <Text>Followers</Text>
+              <Text className="text-gray">Followers</Text>
             </View>
             <View className="developer-followings">
               <Text>{developerContent.following}</Text>
-              <Text>Following</Text>
+              <Text className="text-gray">Following</Text>
             </View>
           </View>
         </View>
 
-        <View className="developer-contact">
-          <AtList>
+        <View className="developer-contact card">
+          <AtList hasBorder={false}>
             <AtListItem title="Email" hasBorder={false} extraText={developerContent.email || '--'} />
             <AtListItem title="Blog" hasBorder={false} extraText={developerContent.blog || '--'} />
             <AtListItem title="Company" hasBorder={false} extraText={developerContent.company || '--'} />

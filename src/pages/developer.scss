@@ -1,0 +1,49 @@
+$shy-moment: #a29bfe;
+
+.developer-name {
+  background-color: $shy-moment;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+  padding: 10px;
+}
+
+.developer-fullname {
+  font-size: 1.4em;
+}
+
+.developer-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.developer-bio {
+  display: flex;
+  word-break:break-word;
+  padding: 0 22px;
+}
+
+.developer-data {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.developer-repos, .developer-followers, .developer-followings {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  Text:first-child {
+    font-size: 1.1em;
+  }
+
+  Text:last-child {
+    font-size: 0.9em;
+  }
+}
+

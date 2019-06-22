@@ -1,4 +1,4 @@
-export default class IDeveloperContent {
+export default class DeveloperContent {
   avatar: string;
   name: string;
   nickname: string;

@@ -3,7 +3,7 @@ import Taro, {Component} from '@tarojs/taro'
 import { AtAvatar, AtIcon } from 'taro-ui'
 
 import {View} from "@tarojs/components";
-import {IDeveloper} from "../../types/developer";
+import DeveloperType from "../../types/developer";
 
 import '../../common.scss'
 import './developer.scss'
@@ -13,7 +13,7 @@ type PageStateProps = {}
 type PageDispatchProps = {}
 
 type PageOwnProps = {
-  developer: IDeveloper
+  developer: DeveloperType
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -26,7 +26,8 @@ interface Developer {
 
 class Developer extends Component {
 
-  goToRepository(author, name) {
+  goToRepository(author, name, event) {
+    event.stopPropagation()
     Taro.navigateTo({
       url: `/pages/repository?owner=${author}&repo=${name}`
     })
