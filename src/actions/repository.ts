@@ -10,7 +10,7 @@ const fetchRepositoryContent = (owner, repo) => {
     try {
       dispatch({ type: FETCH_REPOSITORY_CONTENT_PENDING})
       const data = await Taro.request({
-        url: `https://api.callmehan.info/gitter/repository/${owner}/${repo}`,
+        url: `https://api.callmehan.info/gitter/repositories?owner=${owner}&name=${repo}`,
         method: 'GET'
       })
       dispatch({ type: FETCH_REPOSITORY_CONTENT_FULFILLED, payload: data })

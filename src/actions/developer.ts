@@ -11,7 +11,7 @@ const fetchDeveloperContent = (name) => {
     try {
       dispatch({ type: FETCH_DEVELOPER_CONTENT_PENDING})
       const response = await Taro.request({
-        url: `https://api.callmehan.info/gitter/developer/${name}`,
+        url: `https://api.callmehan.info/gitter/developers?name=${name}`,
         method: 'GET'
       })
       dispatch({ type: FETCH_DEVELOPER_CONTENT_FULFILLED, payload: new DeveloperContent(response.data)})

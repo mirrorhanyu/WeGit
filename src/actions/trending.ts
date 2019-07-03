@@ -13,7 +13,7 @@ export const fetchRepositories = () => {
     try {
       dispatch({ type: FETCH_TRENDING_REPOSITORIES_PENDING})
       const data = await Taro.request({
-        url: 'https://api.callmehan.info/gitter/repositories',
+        url: 'https://api.callmehan.info/gitter//trending-repositories',
         method: 'GET'
       })
       dispatch({ type: FETCH_TRENDING_REPOSITORIES_FULFILLED, payload: data })
@@ -29,7 +29,7 @@ export const fetchDevelopers = () => {
     try {
       dispatch({ type: FETCH_TRENDING_DEVELOPERS_PENDING})
       const data = await Taro.request({
-        url: 'https://api.callmehan.info/gitter/developers',
+        url: 'https://api.callmehan.info/gitter/trending-developers',
         method: 'GET'
       })
       dispatch({ type: FETCH_TRENDING_DEVELOPERS_FULFILLED, payload: data })
