@@ -1,0 +1,32 @@
+.activities {
+  padding-bottom: 110px;
+}
+
+.activity {
+  display: flex;
+  flex-direction: row;
+}
+
+.avatar {
+  margin: 15px;
+}
+
+.activity-details {
+  margin: 10px 0 10px 25px;
+}
+
+.activity-actor-and-action {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.activity-action {
+  padding: 0 8px;
+}
+
+.activity-createdAt {
+  font-size: 0.9em;
+  margin-top: 5px;
+}

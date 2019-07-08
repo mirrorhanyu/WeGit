@@ -3,6 +3,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import {View} from "@tarojs/components";
 import { Footer } from '../components/footer'
 import { Trending } from '../components/trending'
+import { ActivityComponent } from '../components/activity'
 import { connect } from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss'
 import { ACTIVITY, TRENDING, SEARCH } from "../constants/tab";
@@ -40,7 +41,6 @@ class Home extends Component<PageOwnProps, PageOwnState> {
   allowPullDownRefreshAfter: number;
 
   config: Config = {
-    navigationBarTitleText: 'Trending',
     enablePullDownRefresh: true
   }
 
@@ -75,7 +75,7 @@ class Home extends Component<PageOwnProps, PageOwnState> {
     return (
       <View className='home'>
         {this.props.tab.current === TRENDING && <Trending pullDownRefreshAt={this.state.trendingPullDownRefreshAt} /> }
-        {this.props.tab.current === ACTIVITY && <View>activity</View> }
+        {this.props.tab.current === ACTIVITY && <ActivityComponent /> }
         {this.props.tab.current === SEARCH && <View>search</View> }
         <Footer />
       </View>

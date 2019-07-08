@@ -87,7 +87,8 @@ class Trending extends Component {
     }
   }
 
-  componentDidMount() {
+   componentDidMount() {
+    Taro.setNavigationBarTitle({title: "Trending"})
     if (!this.props.trending.isRepositoriesUpdated) {
       this.props.fetchRepositories()
     }
