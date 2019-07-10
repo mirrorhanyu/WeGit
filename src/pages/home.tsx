@@ -4,8 +4,8 @@ import {View} from "@tarojs/components";
 import { Footer } from '../components/footer'
 import { Trending } from '../components/trending'
 import { ActivityComponent } from '../components/activity'
+import { SearchComponent } from '../components/search'
 import { connect } from '@tarojs/redux'
-import 'taro-ui/dist/style/index.scss'
 import { ACTIVITY, TRENDING, SEARCH } from "../constants/tab";
 
 import './home.scss'
@@ -76,7 +76,7 @@ class Home extends Component<PageOwnProps, PageOwnState> {
       <View className='home'>
         {this.props.tab.current === TRENDING && <Trending pullDownRefreshAt={this.state.trendingPullDownRefreshAt} /> }
         {this.props.tab.current === ACTIVITY && <ActivityComponent /> }
-        {this.props.tab.current === SEARCH && <View>search</View> }
+        {this.props.tab.current === SEARCH && <SearchComponent /> }
         <Footer />
       </View>
     )

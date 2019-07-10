@@ -5983,9 +5983,9 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-taro-ui@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/taro-ui/-/taro-ui-2.1.0.tgz#fb2774d6261db75311ac6ce7be243c412c65a322"
+taro-ui@^2.1.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/taro-ui/-/taro-ui-2.2.1.tgz#26f74f1f5e278888a87ee921ac71f33dffcb8601"
   dependencies:
     "@types/react" "^16.7.3"
     bind-decorator "^1.0.11"

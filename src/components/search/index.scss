@@ -1,0 +1,31 @@
+@import "~taro-ui/dist/style/components/search-bar.scss";
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
+
+.search-repositories-list {
+  margin-top: 105px;
+  padding-bottom: 110px;
+}
+
+.search-repository-basic-info {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.search-repository at-icon {
+  margin-right: 8px;
+}
+
+.search-repository-description, .search-repositories-data {
+  margin: 10px 0;
+}
+
+.search-repositories-data {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search-repository-language {
+  margin-right: 40px;
+}
+
