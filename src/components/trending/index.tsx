@@ -4,12 +4,12 @@ import Taro, {Component} from '@tarojs/taro'
 import {AtTabs, AtTabsPane} from 'taro-ui'
 
 import {connect} from "@tarojs/redux";
-import {View} from "@tarojs/components";
-import {fetchDevelopers, fetchRepositories} from "../../actions/trending";
+import {View, Picker} from "@tarojs/components";
+import {fetchDevelopers, fetchRepositories, fetchLanguages} from "../../actions/trending";
 import Repository from "./repository";
 import Developer from "./developer";
 import {IRepository} from "../../types/repository";
-import {IDeveloper} from "../../types/developer";
+import DeveloperType from "../../types/developer";
 
 import isEmptyObject from '../../utils/common';
 
@@ -20,14 +20,17 @@ type PageStateProps = {
   trending: {
     isRepositoriesUpdated: boolean,
     isDevelopersUpdated: boolean,
+    isLanguagesUpdated: boolean,
     repositories: IRepository[],
-    developers: IDeveloper[]
+    developers: DeveloperType[],
+    languages: string[]
   }
 }
 
 type PageDispatchProps = {
-  fetchDevelopers: () => any,
-  fetchRepositories: () => any
+  fetchDevelopers: (since, language) => any,
+  fetchRepositories: (since, language) => any,
+  fetchLanguages: () => any
 }
 
 type PageOwnProps = {
@@ -50,17 +53,22 @@ interface Trending {
 @connect(({trending}) => ({
   trending
 }), (dispatch) => ({
-  fetchDevelopers() {
-    dispatch(fetchDevelopers())
+  fetchDevelopers(since, language) {
+    dispatch(fetchDevelopers(since, language))
   },
-  fetchRepositories() {
-    dispatch(fetchRepositories())
+  fetchRepositories(since, language) {
+    dispatch(fetchRepositories(since, language))
+  },
+  fetchLanguages() {
+    dispatch(fetchLanguages())
   }
 }))
 class Trending extends Component {
 
   REPOSITORIES_TAB: number = 0;
   DEVELOPERS_TAB: number = 1;
+
+  timeRanges = ['Daily', 'Weekly', 'Monthly']
 
   constructor() {
     super(...arguments);
@@ -75,14 +83,25 @@ class Trending extends Component {
     })
   }
 
+  filter(event) {
+    const since = this.timeRanges[event.detail.value[0]].toLowerCase();
+    const language = this.props.trending.languages[event.detail.value[1]].toLowerCase();
+    this.props.fetchDevelopers(since, language)
+    this.props.fetchRepositories(since, language)
+  }
+
   componentWillReceiveProps(nextProps) {
+    const defaultSince = this.timeRanges[0].toLowerCase();
+    if (!this.props.trending.isLanguagesUpdated && nextProps.trending.isLanguagesUpdated) {
+      this.props.fetchRepositories(defaultSince, nextProps.trending.languages[0].toLowerCase())
+      this.props.fetchDevelopers(defaultSince, nextProps.trending.languages[0].toLowerCase())
+    }
+
     if (this.props.pullDownRefreshAt && nextProps.pullDownRefreshAt && this.props.pullDownRefreshAt != nextProps.pullDownRefreshAt) {
       switch (this.state.current) {
         case this.REPOSITORIES_TAB:
-          this.props.fetchRepositories();
           break;
         case this.DEVELOPERS_TAB:
-          this.props.fetchDevelopers();
           break;
         default:
           break;
@@ -92,11 +111,8 @@ class Trending extends Component {
 
   componentDidMount() {
     Taro.setNavigationBarTitle({title: "Trending"})
-    if (!this.props.trending.isRepositoriesUpdated) {
-      this.props.fetchRepositories()
-    }
-    if (!this.props.trending.isDevelopersUpdated) {
-      this.props.fetchDevelopers()
+    if (!this.props.trending.isLanguagesUpdated) {
+      this.props.fetchLanguages()
     }
   }
 
@@ -104,14 +120,15 @@ class Trending extends Component {
     const trending = this.props.trending;
     const isRepositoriesLoading = isEmptyObject(trending) || !trending.isRepositoriesUpdated;
     const isDevelopersLoading = isEmptyObject(trending) || !trending.isDevelopersUpdated;
+    const isLanguagesLoading = isEmptyObject(trending) || !trending.isLanguagesUpdated;
 
     const tabs = [{title: 'Repositories'}, {title: 'Developers'}]
-    const repositories = trending.repositories.map(
+    const repositories = (trending.repositories || []).map(
       (repo, index) => {
         return (<Repository key={index} repo={repo}/>)
       }
     )
-    const developers = trending.developers.map(
+    const developers = (trending.developers || []).map(
       (developer, index) => {
         return (<Developer key={index} developer={developer}/>)
       }
@@ -128,6 +145,14 @@ class Trending extends Component {
             {!isDevelopersLoading && <View className='developers'>{developers}</View>}
           </AtTabsPane>
         </AtTabs>
+        {!isLanguagesLoading && <View className='trending-filter'>
+          <Picker mode='multiSelector'
+                  range={[this.timeRanges, this.props.trending.languages]}
+                  value={[0, 0]}
+                  onChange={this.filter.bind(this)}>
+            <View className='trending-filter-plus picker'/>
+          </Picker>
+        </View>}
       </View>
     )
   }

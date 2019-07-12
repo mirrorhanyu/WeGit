@@ -4,7 +4,10 @@ import {
   FETCH_TRENDING_REPOSITORIES_FULFILLED,
   FETCH_TRENDING_DEVELOPERS_PENDING,
   FETCH_TRENDING_DEVELOPERS_REJECTED,
-  FETCH_TRENDING_DEVELOPERS_FULFILLED
+  FETCH_TRENDING_DEVELOPERS_FULFILLED,
+  FETCH_TRENDING_LANGUAGES_PENDING,
+  FETCH_TRENDING_LANGUAGES_REJECTED,
+  FETCH_TRENDING_LANGUAGES_FULFILLED
 } from "../constants/trending";
 
 export default function trending(state = {}, action) {
@@ -32,6 +35,18 @@ export default function trending(state = {}, action) {
     case FETCH_TRENDING_DEVELOPERS_FULFILLED:
       return {
         ...state, isDevelopersUpdated: true, developers: action.payload.data
+      }
+    case FETCH_TRENDING_LANGUAGES_PENDING:
+      return {
+        ...state, isLanguagesUpdated: false
+      }
+    case FETCH_TRENDING_LANGUAGES_REJECTED:
+      return {
+        ...state, isLanguagesUpdated: true
+      }
+    case FETCH_TRENDING_LANGUAGES_FULFILLED:
+      return {
+        ...state, isLanguagesUpdated: true, languages: action.payload
       }
     default:
       return state
