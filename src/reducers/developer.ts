@@ -4,12 +4,7 @@ import {
   FETCH_DEVELOPER_CONTENT_FULFILLED
 } from "../constants/developer"
 
-const INITIAL_STATE = {
-  isDeveloperContentUpdated: false,
-  developerContent: {},
-}
-
-export default function developer(state = INITIAL_STATE, action) {
+export default function developer(state = {}, action) {
   switch (action.type) {
     case FETCH_DEVELOPER_CONTENT_PENDING:
       return {

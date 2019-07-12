@@ -1,7 +1,7 @@
 import {ComponentClass} from "react";
 import Taro, {Component} from '@tarojs/taro'
 
-import { AtTabs, AtTabsPane } from 'taro-ui'
+import {AtTabs, AtTabsPane} from 'taro-ui'
 
 import {connect} from "@tarojs/redux";
 import {View} from "@tarojs/components";
@@ -11,7 +11,10 @@ import Developer from "./developer";
 import {IRepository} from "../../types/repository";
 import {IDeveloper} from "../../types/developer";
 
+import isEmptyObject from '../../utils/common';
+
 import './index.scss';
+import Loading from "../common/loading";
 
 type PageStateProps = {
   trending: {
@@ -59,20 +62,20 @@ class Trending extends Component {
   REPOSITORIES_TAB: number = 0;
   DEVELOPERS_TAB: number = 1;
 
-  constructor () {
+  constructor() {
     super(...arguments);
     this.state = {
       current: 0,
     }
   }
 
-  handleClick (value) {
+  handleClick(value) {
     this.setState({
       current: value
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.pullDownRefreshAt && nextProps.pullDownRefreshAt && this.props.pullDownRefreshAt != nextProps.pullDownRefreshAt) {
       switch (this.state.current) {
         case this.REPOSITORIES_TAB:
@@ -87,7 +90,7 @@ class Trending extends Component {
     }
   }
 
-   componentDidMount() {
+  componentDidMount() {
     Taro.setNavigationBarTitle({title: "Trending"})
     if (!this.props.trending.isRepositoriesUpdated) {
       this.props.fetchRepositories()
@@ -98,13 +101,17 @@ class Trending extends Component {
   }
 
   render() {
-    const tabs = [{ title: 'Repositories' }, { title: 'Developers' }]
-    const repositories = this.props.trending.repositories.map(
+    const trending = this.props.trending;
+    const isRepositoriesLoading = isEmptyObject(trending) || !trending.isRepositoriesUpdated;
+    const isDevelopersLoading = isEmptyObject(trending) || !trending.isDevelopersUpdated;
+
+    const tabs = [{title: 'Repositories'}, {title: 'Developers'}]
+    const repositories = trending.repositories.map(
       (repo, index) => {
         return (<Repository key={index} repo={repo}/>)
       }
     )
-    const developers = this.props.trending.developers.map(
+    const developers = trending.developers.map(
       (developer, index) => {
         return (<Developer key={index} developer={developer}/>)
       }
@@ -112,11 +119,13 @@ class Trending extends Component {
     return (
       <View>
         <AtTabs current={this.state.current} tabList={tabs} onClick={this.handleClick.bind(this)}>
-          <AtTabsPane current={this.state.current} index={this.REPOSITORIES_TAB} >
-            <View className='repositories'>{repositories}</View>
+          <AtTabsPane current={this.state.current} index={this.REPOSITORIES_TAB}>
+            {isRepositoriesLoading && <Loading/>}
+            {!isRepositoriesLoading && <View className='repositories'>{repositories}</View>}
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={this.DEVELOPERS_TAB}>
-            <View className='developers'>{developers}</View>
+            {isDevelopersLoading && <Loading/>}
+            {!isDevelopersLoading && <View className='developers'>{developers}</View>}
           </AtTabsPane>
         </AtTabs>
       </View>

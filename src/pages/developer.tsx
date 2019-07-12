@@ -1,6 +1,6 @@
 import {ComponentClass} from 'react';
 import Taro, {Component, PageConfig} from '@tarojs/taro'
-import {View, Text} from "@tarojs/components";
+import {Text, View} from "@tarojs/components";
 import {connect} from '@tarojs/redux'
 import DeveloperContent from '../types/developerContent';
 import 'taro-ui/dist/style/index.scss'
@@ -8,7 +8,9 @@ import fetchDeveloperContent from "../actions/developer";
 
 import './developer.scss';
 import '../common.scss';
-import { AtAvatar, AtList, AtListItem } from 'taro-ui'
+import {AtAvatar, AtList, AtListItem} from 'taro-ui'
+import isEmptyObject from "../utils/common";
+import Loading from "../components/common/loading";
 
 type PageStateProps = {
   developer: {
@@ -58,46 +60,48 @@ class Developer extends Component {
   }
 
   render() {
-    const {developerContent, isDeveloperContentUpdated} = this.props.developer
-
-    if (!isDeveloperContentUpdated) {
-      return;
-    }
+    const developer = this.props.developer
+    const isDeveloperLoading = isEmptyObject(developer) || !developer.isDeveloperContentUpdated;
 
     return (
       <View className="developer">
-        <View className="developer-name">
-          <AtAvatar image={developerContent.avatar} circle={true} />
-          <Text className="developer-fullname">{developerContent.name}</Text>
-          <Text className="developer-nickname">@{developerContent.nickname}</Text>
-        </View>
+        {isDeveloperLoading && <Loading/>}
+        {!isDeveloperLoading && (
+          <View>
+            <View className="developer-name">
+              <AtAvatar image={developer.developerContent.avatar} circle={true}/>
+              <Text className="developer-fullname">{developer.developerContent.name}</Text>
+              <Text className="developer-nickname">@{developer.developerContent.nickname}</Text>
+            </View>
 
-        <View className="developer-info card">
-          <View className="developer-bio text-gray">{developerContent.bio}</View>
-          <View className="developer-data">
-            <View className="developer-repos">
-              <Text>{developerContent.repos}</Text>
-              <Text className="text-gray">Repositories</Text>
+            <View className="developer-info card">
+              <View className="developer-bio text-gray">{developer.developerContent.bio}</View>
+              <View className="developer-data">
+                <View className="developer-repos">
+                  <Text>{developer.developerContent.repos}</Text>
+                  <Text className="text-gray">Repositories</Text>
+                </View>
+                <View className="developer-followers">
+                  <Text>{developer.developerContent.followers}</Text>
+                  <Text className="text-gray">Followers</Text>
+                </View>
+                <View className="developer-followings">
+                  <Text>{developer.developerContent.following}</Text>
+                  <Text className="text-gray">Following</Text>
+                </View>
+              </View>
             </View>
-            <View className="developer-followers">
-              <Text>{developerContent.followers}</Text>
-              <Text className="text-gray">Followers</Text>
-            </View>
-            <View className="developer-followings">
-              <Text>{developerContent.following}</Text>
-              <Text className="text-gray">Following</Text>
+
+            <View className="developer-contact card">
+              <AtList hasBorder={false}>
+                <AtListItem title="Email" hasBorder={false} extraText={developer.developerContent.email || '--'}/>
+                <AtListItem title="Blog" hasBorder={false} extraText={developer.developerContent.blog || '--'}/>
+                <AtListItem title="Company" hasBorder={false} extraText={developer.developerContent.company || '--'}/>
+                <AtListItem title="Location" hasBorder={false} extraText={developer.developerContent.location || '--'}/>
+              </AtList>
             </View>
           </View>
-        </View>
-
-        <View className="developer-contact card">
-          <AtList hasBorder={false}>
-            <AtListItem title="Email" hasBorder={false} extraText={developerContent.email || '--'} />
-            <AtListItem title="Blog" hasBorder={false} extraText={developerContent.blog || '--'} />
-            <AtListItem title="Company" hasBorder={false} extraText={developerContent.company || '--'} />
-            <AtListItem title="Location" hasBorder={false} extraText={developerContent.location || '--'} />
-          </AtList>
-        </View>
+        )}
       </View>
     )
   }

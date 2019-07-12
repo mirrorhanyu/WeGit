@@ -9,6 +9,8 @@ import {AtIcon, AtList, AtListItem} from 'taro-ui'
 
 import '../common.scss';
 import './repository.scss';
+import isEmptyObject from "../utils/common";
+import Loading from "../components/common/loading";
 
 type PageStateProps = {
   repository: {
@@ -84,89 +86,93 @@ class Repository extends Component {
   }
 
   render() {
-    const {repositoryContent, isRepositoryContentUpdated} = this.props.repository
+    const repository = this.props.repository
 
-    if (!isRepositoryContentUpdated) {
-      return;
-    }
-
-    const {owner, repo} = this.state
-    const baseurl = 'https://raw.githubusercontent.com/' + owner + '/' + repo + '/master'
+    const isRepositoryLoading = isEmptyObject(repository) || !repository.isRepositoryContentUpdated;
 
     return (
       <View className='repository'>
-        <View className='repository-header'>
-          <View className='repository-name'>{repositoryContent.name}</View>
-          <View className='repository-description card-content'>{repositoryContent.description}</View>
-        </View>
-
-        <View className='card text-gray repository-operations'>
-          <View className='repository-watch operation'>
-            <Button className='text-gray'>
-              <AtIcon prefixClass='fas' value='eye' size='28'/>
-            </Button>
-            <View className='repo-watch card-content'>{repositoryContent.subscribers_count}</View>
+        {isRepositoryLoading && <View><Loading/></View>}
+        {!isRepositoryLoading && <View>
+          <View className='repository-header'>
+            <View className='repository-name'>{repository.repositoryContent.name}</View>
+            <View className='repository-description card-content'>{repository.repositoryContent.description}</View>
           </View>
 
-          <View className='repository-star operation'>
-            <Button className='text-gray'>
-              <AtIcon prefixClass='fas' value='star' size='28'/>
-            </Button>
-            <View className='repo-star card-content'>{repositoryContent.stargazers_count}</View>
+          <View className='card text-gray repository-operations'>
+            <View className='repository-watch operation'>
+              <Button className='text-gray'>
+                <AtIcon prefixClass='fas' value='eye' size='28'/>
+              </Button>
+              <View className='repo-watch card-content'>{repository.repositoryContent.subscribers_count}</View>
+            </View>
+
+            <View className='repository-star operation'>
+              <Button className='text-gray'>
+                <AtIcon prefixClass='fas' value='star' size='28'/>
+              </Button>
+              <View className='repo-star card-content'>{repository.repositoryContent.stargazers_count}</View>
+            </View>
+
+            <View className='repository-fork operation'>
+              <Button className='text-gray'>
+                <AtIcon prefixClass='fas' value='code-branch' size='28'/>
+              </Button>
+              <View className='repo-fork card-content'>{repository.repositoryContent.forks}</View>
+            </View>
+
+            <View className='repository-share operation'>
+              <Button className='text-gray' open-type='share'>
+                <AtIcon prefixClass='fas' value='share' size='28'/>
+              </Button>
+              <View className='repo-share card-content'>share</View>
+            </View>
+
+            <View className='repository-save operation'>
+              <Button className='text-gray'>
+                <AtIcon prefixClass='fas' value='images' size='28'/>
+              </Button>
+              <View className='repo-save card-content'>save</View>
+            </View>
+
+            <View className='repository-copy operation'>
+              <Button className='text-gray' onClick={this.copy.bind(this)}>
+                <AtIcon prefixClass='fas' value='link' size='28'/>
+              </Button>
+              <View className='repo-copy card-content'>copy</View>
+            </View>
           </View>
 
-          <View className='repository-fork operation'>
-            <Button className='text-gray'>
-              <AtIcon prefixClass='fas' value='code-branch' size='28'/>
-            </Button>
-            <View className='repo-fork card-content'>{repositoryContent.forks}</View>
+          <View className='card card-content'>
+            <AtList hasBorder={false}>
+              <AtListItem hasBorder={false} title='Author' arrow='right'
+                          extraText={repository.repositoryContent.owner.login}/>
+              <AtListItem hasBorder={false} title='View Code' arrow='right'/>
+              <AtListItem hasBorder={false} title='License'
+                          extraText={repository.repositoryContent.owner.login || '--'}/>
+            </AtList>
           </View>
 
-          <View className='repository-share operation'>
-            <Button className='text-gray' open-type='share'>
-              <AtIcon prefixClass='fas' value='share' size='28'/>
-            </Button>
-            <View className='repo-share card-content'>share</View>
+          <View className='card card-content'>
+            <AtList hasBorder={false}>
+              <AtListItem hasBorder={false} title='Issues' arrow='right'
+                          extraText={repository.repositoryContent.open_issues.toString()}/>
+              <AtListItem hasBorder={false} title='Contributors' arrow='right'/>
+            </AtList>
           </View>
 
-          <View className='repository-save operation'>
-            <Button className='text-gray'>
-              <AtIcon prefixClass='fas' value='images' size='28'/>
-            </Button>
-            <View className='repo-save card-content'>save</View>
+          <View className='card card-content'>
+            <View className='repository-readme'>
+              <AtIcon prefixClass='fas' value='book-reader' size='16'/>
+              <View>README.md</View>
+            </View>
+            <wemark md={repository.repositoryContent.readme}
+                    link='true'
+                    baseurl={`https://raw.githubusercontent.com/${this.state.owner}/${this.state.repo}/master`}
+                    highlight='true'
+                    type='wemark'/>
           </View>
-
-          <View className='repository-copy operation'>
-            <Button className='text-gray' onClick={this.copy.bind(this)}>
-              <AtIcon prefixClass='fas' value='link' size='28'/>
-            </Button>
-            <View className='repo-copy card-content'>copy</View>
-          </View>
-        </View>
-
-        <View className='card card-content'>
-          <AtList hasBorder={false}>
-            <AtListItem hasBorder={false} title='Author' arrow='right' extraText={repositoryContent.owner.login}/>
-            <AtListItem hasBorder={false} title='View Code' arrow='right'/>
-            <AtListItem hasBorder={false} title='License' extraText={repositoryContent.owner.login || '--'}/>
-          </AtList>
-        </View>
-
-        <View className='card card-content'>
-          <AtList hasBorder={false}>
-            <AtListItem hasBorder={false} title='Issues' arrow='right' extraText={repositoryContent.open_issues.toString()}/>
-            <AtListItem hasBorder={false} title='Contributors' arrow='right'/>
-          </AtList>
-        </View>
-
-        <View className='card card-content'>
-          <View className='repository-readme'>
-            <AtIcon prefixClass='fas' value='book-reader' size='16'/>
-            <View>README.md</View>
-          </View>
-          <wemark md={repositoryContent.readme} link='true' baseurl={baseurl} highlight='true' type='wemark'/>
-        </View>
-
+        </View>}
       </View>
     )
   }

@@ -12,6 +12,8 @@ import Activity from "../../types/activity";
 import ago from '../../utils/time';
 import getAction from '../../utils/action';
 import {AtAvatar} from "taro-ui";
+import isEmptyObject from "../../utils/common";
+import Loading from "../common/loading";
 
 type PageStateProps = {
   activity: {
@@ -64,28 +66,25 @@ class ActivityComponent extends Component {
   }
 
   render() {
-    const {isActivitiesUpdated, activities} = this.props.activity
+    const activity = this.props.activity;
+    const isActivitiesLoading = isEmptyObject(activity) || !activity.isActivitiesUpdated;
 
-    if (!isActivitiesUpdated) {
-      return
-    }
-
-    const events = activities.map(
-      (activity) => {
-        const createdAt = ago(activity.createdAt)
-        const action = getAction(activity.type)
-        const loginName = activity.actor.login;
-        const [repoAuthor, repoName] = activity.repo.name.split('/');
+    const events = (activity.activities || []).map(
+      (event) => {
+        const createdAt = ago(event.createdAt)
+        const action = getAction(event.type)
+        const loginName = event.actor.login;
+        const [repoAuthor, repoName] = event.repo.name.split('/');
         return (
-          <View className='card card-content activity' key={activity.id}>
+          <View className='card card-content activity' key={event.id}>
             <View className='avatar' onClick={this.goToDeveloper.bind(this, loginName)}>
-              <AtAvatar image={activity.actor.avatarUrl}/>
+              <AtAvatar image={event.actor.avatarUrl}/>
             </View>
             <View className='activity-details'>
               <View className='activity-actor-and-action'>
-                <View className='text-blue' onClick={this.goToDeveloper.bind(this, activity.actor.login)}>{activity.actor.name}</View>
+                <View className='text-blue' onClick={this.goToDeveloper.bind(this, event.actor.login)}>{event.actor.name}</View>
                 <View className='activity-action'>{action}</View>
-                <View className='text-blue' onClick={this.goToRepository.bind(this, repoAuthor, repoName)}>{activity.repo.name}</View>
+                <View className='text-blue' onClick={this.goToRepository.bind(this, repoAuthor, repoName)}>{event.repo.name}</View>
               </View>
               <View className='activity-createdAt text-gray'>{createdAt}</View>
             </View>
@@ -96,7 +95,8 @@ class ActivityComponent extends Component {
 
     return (
       <View className='activities'>
-        {events}
+        {isActivitiesLoading && <Loading/>}
+        {!isActivitiesLoading && events}
       </View>
     )
   }

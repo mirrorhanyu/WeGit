@@ -4,12 +4,7 @@ import {
   FETCH_REPOSITORY_CONTENT_FULFILLED
 } from "../constants/repository"
 
-const INITIAL_STATE = {
-  isRepositoryContentUpdated: false,
-  repositoryContent: {},
-}
-
-export default function repository(state = INITIAL_STATE, action) {
+export default function repository(state = {}, action) {
   switch (action.type) {
     case FETCH_REPOSITORY_CONTENT_PENDING:
       return {

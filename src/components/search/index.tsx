@@ -11,6 +11,8 @@ import searchRepositories from "../../actions/search";
 import ago from '../../utils/time';
 import {AtIcon, AtSearchBar} from "taro-ui";
 import Search from "../../types/search";
+import isEmptyObject from "../../utils/common";
+import Loading from "../common/loading";
 
 type PageStateProps = {
   search: {
@@ -28,7 +30,7 @@ type PageOwnProps = {}
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
 type PageState = {
-  search: string
+  searchedRepo: string
 }
 
 type IState = PageState
@@ -50,7 +52,7 @@ class SearchComponent extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      search: ''
+      searchedRepo: ''
     }
   }
 
@@ -61,11 +63,11 @@ class SearchComponent extends Component {
   }
 
   onChange(value) {
-    this.setState({search: value})
+    this.setState({searchedRepo: value})
   }
 
   onActionClick() {
-    const search = this.state.search;
+    const search = this.state.searchedRepo;
     if (search) {
       this.props.searchRepositories(search);
     }
@@ -76,9 +78,10 @@ class SearchComponent extends Component {
   }
 
   render() {
-    const {isSearchedRepositoriesUpdated, searchedRepositories} = this.props.search
+    const search = this.props.search;
+    const isSearchedRepositoriesLoading = !isEmptyObject(search) && !search.isSearchedRepositoriesUpdated;
 
-    const searchRepositories = isSearchedRepositoriesUpdated ? searchedRepositories.map(
+    const searchRepositories = (search.searchedRepositories || []).map(
       (repo) => {
         const updatedAt = ago(repo.updatedAt)
         return (
@@ -115,7 +118,7 @@ class SearchComponent extends Component {
           </View>
         )
       }
-    ) : []
+    )
 
     return (
       <View className='search-repositories'>
@@ -124,12 +127,13 @@ class SearchComponent extends Component {
           showActionButton
           placeholder='search'
           actionName='search'
-          value={this.state.search}
+          value={this.state.searchedRepo}
           onChange={this.onChange.bind(this)}
           onActionClick={this.onActionClick.bind(this)}
         />
         <View className='search-repositories-list'>
-          {searchRepositories}
+          {isSearchedRepositoriesLoading && <Loading/>}
+          {!isSearchedRepositoriesLoading && searchRepositories}
         </View>
       </View>
     )

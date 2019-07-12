@@ -7,14 +7,7 @@ import {
   FETCH_TRENDING_DEVELOPERS_FULFILLED
 } from "../constants/trending";
 
-const INITIAL_STATE = {
-  isRepositoriesUpdated: false,
-  isDevelopersUpdated: false,
-  repositories: [],
-  developers: []
-}
-
-export default function trending(state = INITIAL_STATE, action) {
+export default function trending(state = {}, action) {
   switch (action.type) {
     case FETCH_TRENDING_REPOSITORIES_PENDING:
       return {
