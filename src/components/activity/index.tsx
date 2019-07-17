@@ -6,7 +6,7 @@ import {View} from "@tarojs/components";
 import '../../common.scss'
 import './index.scss'
 import {connect} from "@tarojs/redux";
-import fetchActivities from "../../actions/activity";
+import { fetchActivities, loadMoreActivities } from "../../actions/activity";
 import Activity from "../../types/activity";
 
 import ago from '../../utils/time';
@@ -14,26 +14,35 @@ import getAction from '../../utils/action';
 import {AtAvatar} from "taro-ui";
 import isEmptyObject from "../../utils/common";
 import Loading from "../common/loading";
+import LoadMore from "../common/loadMore";
 
 type PageStateProps = {
   activity: {
     isActivitiesUpdated: boolean,
-    activities: Activity[]
+    isLoadingMoreActivitiesUpdated: boolean,
+    activities: Activity[],
+    maxPagination: string
   }
 }
 
 type PageDispatchProps = {
-  fetchActivities: () => any
+  fetchActivities: () => any,
+  loadMoreActivities: (page) => any
 }
 
 type PageOwnProps = {}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
-type PageState = {}
+type PageState = {
+  currentPagination: number
+}
+
+type IState = PageState
 
 interface ActivityComponent {
-  props: IProps
+  props: IProps,
+  state: IState
 }
 
 @connect(({activity}) => ({
@@ -41,9 +50,34 @@ interface ActivityComponent {
 }), (dispatch) => ({
   fetchActivities() {
     dispatch(fetchActivities())
+  },
+  loadMoreActivities(page) {
+    dispatch(loadMoreActivities(page))
   }
 }))
 class ActivityComponent extends Component {
+
+  constructor() {
+    super(...arguments)
+    this.state = {
+      currentPagination: 1
+    }
+  }
+
+  getLoadMoreStatus() {
+    if (this.props.activity.isLoadingMoreActivitiesUpdated === false) {
+      return 'LOADING'
+    } else if (this.state.currentPagination < +this.props.activity.maxPagination) {
+      return 'LOAD_MORE'
+    } else {
+      return 'NO_MORE'
+    }
+  }
+
+  async loadMore() {
+    await this.setState({currentPagination: this.state.currentPagination + 1})
+    this.props.loadMoreActivities(this.state.currentPagination)
+  }
 
   goToRepository(author, name, event) {
     event.stopPropagation()
@@ -68,6 +102,8 @@ class ActivityComponent extends Component {
   render() {
     const activity = this.props.activity;
     const isActivitiesLoading = isEmptyObject(activity) || !activity.isActivitiesUpdated;
+    const isLoadMoreAvailable = !isEmptyObject(activity) && activity.isActivitiesUpdated;
+    const status = this.getLoadMoreStatus()
 
     const events = (activity.activities || []).map(
       (event) => {
@@ -97,6 +133,7 @@ class ActivityComponent extends Component {
       <View className='activities'>
         {isActivitiesLoading && <Loading/>}
         {!isActivitiesLoading && events}
+        {isLoadMoreAvailable && <LoadMore status={status} onClick={this.loadMore.bind(this)}/>}
       </View>
     )
   }
