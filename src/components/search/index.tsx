@@ -6,23 +6,27 @@ import {View} from "@tarojs/components";
 import '../../common.scss'
 import './index.scss'
 import {connect} from "@tarojs/redux";
-import searchRepositories from "../../actions/search";
+import { searchRepositories, loadMoreRepositories } from "../../actions/search";
 
 import ago from '../../utils/time';
 import {AtIcon, AtSearchBar} from "taro-ui";
 import Search from "../../types/search";
 import isEmptyObject from "../../utils/common";
 import Loading from "../common/loading";
+import LoadMore from "../common/loadMore";
 
 type PageStateProps = {
   search: {
     isSearchedRepositoriesUpdated: boolean,
-    searchedRepositories: Search[]
+    isLoadingMoreRepositoriesUpdated: boolean,
+    searchedRepositories: Search[],
+    maxPagination: string
   }
 }
 
 type PageDispatchProps = {
-  searchRepositories: (name) => any
+  searchRepositories: (name) => any,
+  loadMoreRepositories: (name, page) => any
 }
 
 type PageOwnProps = {}
@@ -30,7 +34,8 @@ type PageOwnProps = {}
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
 type PageState = {
-  searchedRepo: string
+  searchedRepo: string,
+  currentPagination: number
 }
 
 type IState = PageState
@@ -45,6 +50,9 @@ interface SearchComponent {
 }), (dispatch) => ({
   searchRepositories(name) {
     dispatch(searchRepositories(name))
+  },
+  loadMoreRepositories(name, page) {
+    dispatch(loadMoreRepositories(name, page))
   }
 }))
 class SearchComponent extends Component {
@@ -52,14 +60,28 @@ class SearchComponent extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      searchedRepo: ''
+      searchedRepo: '',
+      currentPagination: 1
     }
   }
 
   goToRepository(author, name) {
-    Taro.navigateTo({
-      url: `/pages/repository?owner=${author}&repo=${name}`
-    })
+    Taro.navigateTo({url: `/pages/repository?owner=${author}&repo=${name}`})
+  }
+
+  async loadMore() {
+    await this.setState({currentPagination: this.state.currentPagination + 1})
+    this.props.loadMoreRepositories(this.state.searchedRepo, this.state.currentPagination)
+  }
+
+  getLoadMoreStatus() {
+    if (this.props.search.isLoadingMoreRepositoriesUpdated === false) {
+      return 'LOADING'
+    } else if (this.state.currentPagination < +this.props.search.maxPagination) {
+      return 'LOAD_MORE'
+    } else {
+      return 'NO_MORE'
+    }
   }
 
   onChange(value) {
@@ -74,13 +96,14 @@ class SearchComponent extends Component {
   }
 
   componentDidMount() {
-    Taro.setNavigationBarTitle({title: "Search"})
+    Taro.setNavigationBarTitle({title: 'Search'})
   }
 
   render() {
     const search = this.props.search;
     const isSearchedRepositoriesLoading = !isEmptyObject(search) && !search.isSearchedRepositoriesUpdated;
-
+    const isLoadMoreAvailable = !isEmptyObject(search) && search.isSearchedRepositoriesUpdated;
+    const status = this.getLoadMoreStatus()
     const searchRepositories = (search.searchedRepositories || []).map(
       (repo) => {
         const updatedAt = ago(repo.updatedAt)
@@ -134,6 +157,7 @@ class SearchComponent extends Component {
         <View className='search-repositories-list'>
           {isSearchedRepositoriesLoading && <Loading/>}
           {!isSearchedRepositoriesLoading && searchRepositories}
+          {isLoadMoreAvailable && <LoadMore status={status} onClick={this.loadMore.bind(this)}/>}
         </View>
       </View>
     )

@@ -1,0 +1,27 @@
+.load-more, .no-more, .loading {
+  text-align: center;
+  width: 100%;
+  font-size: 0.85em;
+}
+
+.load-more, .loading {
+  color: #6190e8;
+}
+
+.loading:after {
+  content: 'Loading...'
+}
+
+
+.load-more:after {
+  content: 'Load More'
+}
+
+.no-more {
+  color: #868686;
+  pointer-events: none;
+}
+
+.no-more:after {
+  content: 'No More'
+}
