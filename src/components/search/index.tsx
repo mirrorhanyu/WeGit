@@ -6,7 +6,7 @@ import {View} from "@tarojs/components";
 import '../../common.scss'
 import './index.scss'
 import {connect} from "@tarojs/redux";
-import { searchRepositories, loadMoreRepositories } from "../../actions/search";
+import {searchRepositories, loadMoreRepositories} from "../../actions/search";
 
 import ago from '../../utils/time';
 import {AtIcon, AtSearchBar} from "taro-ui";
@@ -69,9 +69,10 @@ class SearchComponent extends Component {
     Taro.navigateTo({url: `/pages/repository?owner=${author}&repo=${name}`})
   }
 
-  async loadMore() {
-    await this.setState({currentPagination: this.state.currentPagination + 1})
-    this.props.loadMoreRepositories(this.state.searchedRepo, this.state.currentPagination)
+  loadMore() {
+    this.setState({currentPagination: this.state.currentPagination + 1}, () => {
+      this.props.loadMoreRepositories(this.state.searchedRepo, this.state.currentPagination)
+    })
   }
 
   getLoadMoreStatus() {

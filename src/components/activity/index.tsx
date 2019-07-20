@@ -6,7 +6,7 @@ import {View} from "@tarojs/components";
 import '../../common.scss'
 import './index.scss'
 import {connect} from "@tarojs/redux";
-import { fetchActivities, loadMoreActivities } from "../../actions/activity";
+import {fetchActivities, loadMoreActivities} from "../../actions/activity";
 import Activity from "../../types/activity";
 
 import ago from '../../utils/time';
@@ -74,9 +74,10 @@ class ActivityComponent extends Component {
     }
   }
 
-  async loadMore() {
-    await this.setState({currentPagination: this.state.currentPagination + 1})
-    this.props.loadMoreActivities(this.state.currentPagination)
+  loadMore() {
+    this.setState({currentPagination: this.state.currentPagination + 1}, () => {
+      this.props.loadMoreActivities(this.state.currentPagination)
+    })
   }
 
   goToRepository(author, name, event) {
@@ -118,9 +119,11 @@ class ActivityComponent extends Component {
             </View>
             <View className='activity-details'>
               <View className='activity-actor-and-action'>
-                <View className='text-blue' onClick={this.goToDeveloper.bind(this, event.actor.login)}>{event.actor.name}</View>
+                <View className='text-blue'
+                      onClick={this.goToDeveloper.bind(this, event.actor.login)}>{event.actor.name}</View>
                 <View className='activity-action'>{action}</View>
-                <View className='text-blue' onClick={this.goToRepository.bind(this, repoAuthor, repoName)}>{event.repo.name}</View>
+                <View className='text-blue'
+                      onClick={this.goToRepository.bind(this, repoAuthor, repoName)}>{event.repo.name}</View>
               </View>
               <View className='activity-createdAt text-gray'>{createdAt}</View>
             </View>
