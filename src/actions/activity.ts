@@ -9,13 +9,14 @@ import {
 } from "../constants/activity";
 import Activity from "../types/activity";
 
-const fetchActivities = () => {
+const fetchActivities = (token, username) => {
   return async (dispatch) => {
     try {
       dispatch({type: FETCH_ACTIVITIES_PENDING})
       const response = await Taro.request({
-        url: `https://api.callmehan.info/gitter/developers/mirrorhanyu/events`,
-        method: 'GET'
+        url: `https://api.callmehan.info/gitter/developers/${username}/events`,
+        method: 'GET',
+        header: {'Authorization': token}
       })
       dispatch({
         type: FETCH_ACTIVITIES_FULFILLED,
@@ -31,13 +32,14 @@ const fetchActivities = () => {
   }
 }
 
-const loadMoreActivities = (page) => {
+const loadMoreActivities = (token, username, page) => {
   return async (dispatch) => {
     try {
       dispatch({type: LOAD_MORE_ACTIVITIES_PENDING})
       const response = await Taro.request({
-        url: `https://api.callmehan.info/gitter/developers/mirrorhanyu/events?page=${page}`,
-        method: 'GET'
+        url: `https://api.callmehan.info/gitter/developers/${username}/events?page=${page}`,
+        method: 'GET',
+        header: {'Authorization': token}
       })
       dispatch({
         type: LOAD_MORE_ACTIVITIES_FULFILLED,

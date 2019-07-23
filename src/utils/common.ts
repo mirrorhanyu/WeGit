@@ -1,5 +1,5 @@
-const isEmptyObject = (object: Object) => {
-  return !Object.keys(object).length;
+const isEmptyObject = (object) => {
+  return object == null || !Object.keys(object).length;
 }
 
 export {

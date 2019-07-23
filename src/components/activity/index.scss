@@ -2,6 +2,11 @@
   padding-bottom: 120px;
 }
 
+.activities-not-login {
+  display: flex;
+  justify-content: center;
+}
+
 .activity {
   display: flex;
   flex-direction: row;
@@ -29,4 +34,12 @@
 .activity-createdAt {
   font-size: 0.9em;
   margin-top: 5px;
+}
+
+.click-to-login {
+  background: #f1c40f;
+  color: white;
+  padding: 15px;
+  margin: 50px;
+  border-radius: 50px;
 }

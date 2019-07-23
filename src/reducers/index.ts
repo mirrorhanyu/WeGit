@@ -5,6 +5,7 @@ import repository from "./repository";
 import developer from "./developer";
 import activity from "./activity";
 import search from "./search";
+import login from "./login";
 
 export default combineReducers({
   tab,
@@ -12,5 +13,6 @@ export default combineReducers({
   repository,
   developer,
   activity,
-  search
+  search,
+  login
 })

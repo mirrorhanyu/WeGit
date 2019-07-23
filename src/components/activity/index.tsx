@@ -1,7 +1,7 @@
 import {ComponentClass} from "react";
 import Taro, {Component} from '@tarojs/taro'
 
-import {View} from "@tarojs/components";
+import {View, Text} from "@tarojs/components";
 
 import '../../common.scss'
 import './index.scss'
@@ -26,8 +26,8 @@ type PageStateProps = {
 }
 
 type PageDispatchProps = {
-  fetchActivities: () => any,
-  loadMoreActivities: (page) => any
+  fetchActivities: (token, username) => any,
+  loadMoreActivities: (token, username, page) => any
 }
 
 type PageOwnProps = {}
@@ -35,7 +35,10 @@ type PageOwnProps = {}
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
 type PageState = {
-  currentPagination: number
+  currentPagination: number,
+  token: string,
+  notLogin: false,
+  username: string
 }
 
 type IState = PageState
@@ -48,11 +51,11 @@ interface ActivityComponent {
 @connect(({activity}) => ({
   activity
 }), (dispatch) => ({
-  fetchActivities() {
-    dispatch(fetchActivities())
+  fetchActivities(token, username) {
+    dispatch(fetchActivities(token, username))
   },
-  loadMoreActivities(page) {
-    dispatch(loadMoreActivities(page))
+  loadMoreActivities(token, username, page) {
+    dispatch(loadMoreActivities(token, username, page))
   }
 }))
 class ActivityComponent extends Component {
@@ -60,7 +63,10 @@ class ActivityComponent extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      currentPagination: 1
+      currentPagination: 1,
+      token: '',
+      notLogin: false,
+      username: ''
     }
   }
 
@@ -76,7 +82,7 @@ class ActivityComponent extends Component {
 
   loadMore() {
     this.setState({currentPagination: this.state.currentPagination + 1}, () => {
-      this.props.loadMoreActivities(this.state.currentPagination)
+      this.props.loadMoreActivities(this.state.token, this.state.username, this.state.currentPagination)
     })
   }
 
@@ -93,14 +99,42 @@ class ActivityComponent extends Component {
     })
   }
 
-  componentDidMount() {
+  componentWillMount() {
     Taro.setNavigationBarTitle({title: "Activity"})
-    if (!this.props.activity.isActivitiesUpdated) {
-      this.props.fetchActivities()
+  }
+
+  login() {
+    Taro.navigateTo({url: '/pages/login'})
+  }
+
+  componentDidMount() {
+    this.fetchActivitiesWithToken(() => {
+      this.login()
+    })
+  }
+
+  componentDidShow() {
+    this.fetchActivitiesWithToken(() => {
+      this.setState({notLogin: true})
+    })
+  }
+
+  async fetchActivitiesWithToken(onUserNotLogin) {
+    try {
+      const token: string = (await Taro.getStorage({'key': 'token'})).data
+      const username: string = JSON.parse((await Taro.getStorage({'key': 'user'})).data).nickname
+      this.setState({token, username}, () => {
+        if (!this.props.activity.isActivitiesUpdated) {
+          this.props.fetchActivities(token, username)
+        }
+      })
+    } catch (e) {
+      onUserNotLogin()
     }
   }
 
   render() {
+    const isNotLogin = this.state.notLogin
     const activity = this.props.activity;
     const isActivitiesLoading = isEmptyObject(activity) || !activity.isActivitiesUpdated;
     const isLoadMoreAvailable = !isEmptyObject(activity) && activity.isActivitiesUpdated;
@@ -133,10 +167,11 @@ class ActivityComponent extends Component {
     )
 
     return (
-      <View className='activities'>
-        {isActivitiesLoading && <Loading/>}
-        {!isActivitiesLoading && events}
-        {isLoadMoreAvailable && <LoadMore status={status} onClick={this.loadMore.bind(this)}/>}
+      <View className={isNotLogin ? 'activities-not-login' : 'activities'}>
+        {isNotLogin && <Text className='click-to-login' onClick={this.login.bind(this)}>Click me to login</Text>}
+        {!isNotLogin && isActivitiesLoading && <Loading/>}
+        {!isNotLogin && !isActivitiesLoading && events}
+        {!isNotLogin && isLoadMoreAvailable && <LoadMore status={status} onClick={this.loadMore.bind(this)}/>}
       </View>
     )
   }

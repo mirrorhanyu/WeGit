@@ -29,7 +29,8 @@ class App extends Component {
     pages: [
       'pages/home',
       'pages/repository',
-      'pages/developer'
+      'pages/developer',
+      'pages/login'
     ],
     window: {
       backgroundTextStyle: 'light',
