@@ -19,7 +19,7 @@ const searchRepositories = (name) => {
       })
       dispatch({
         type: SEARCH_REPOSITORIES_FULFILLED,
-        payload: response.data.items.map(search => {
+        payload: response.data.map(search => {
           return new Search(search)
         }),
         addition: {maxPage: response.header['Max-Page']}
@@ -41,7 +41,7 @@ const loadMoreRepositories = (name, page) => {
       })
       dispatch({
         type: LOAD_MORE_REPOSITORIES_FULFILLED,
-        payload: response.data.items.map(search => {
+        payload: response.data.map(search => {
           return new Search(search)
         }),
         addition: {maxPage: response.header['Max-Page']}

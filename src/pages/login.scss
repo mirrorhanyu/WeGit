@@ -1,0 +1,51 @@
+.login-credential {
+  background-color:#f1c40f;
+  padding: 20% 0 50px 0;
+  display: flex;
+  flex-direction:column;
+  color: white;
+}
+
+Input {
+  margin:10px 50px;
+  border:none;
+  border-bottom:2px solid white;
+  padding:5px 0;
+}
+
+.login-credential-placeholder {
+  color: white;
+}
+
+.login-error {
+  margin: 1px 50px;
+  font-size: 0.8em;
+}
+
+.submit {
+  background-color: white;
+  color:#f1c40f;
+  border:none;
+  border-radius:50px;
+  margin:30px auto;
+  padding:10px 80px;
+}
+
+.login-hint {
+  margin: 30px;
+}
+
+.login-hint-title {
+  opacity:0.6;
+  font-weight:bold;
+}
+
+.login-hint-text {
+  font-size: 0.9em;
+  color: #868686;
+  margin-bottom: 20px;
+}
+
+.login-generate-token {
+  text-decoration: underline
+}
