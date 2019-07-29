@@ -24,7 +24,7 @@ const searchRepositories = (name) => {
         }),
         addition: {
           searchedRepo: name,
-          maxPage: response.header['Max-Page'],
+          maxPage: response.header['Max-Page'] || response.header['max-page'],
           currentPagination: 1
         }
       })
@@ -50,7 +50,7 @@ const loadMoreRepositories = (name, page) => {
         }),
         addition: {
           searchedRepo: name,
-          maxPage: response.header['Max-Page'],
+          maxPage: response.header['Max-Page'] || response.header['max-page'],
           currentPagination: page
         }
       })
