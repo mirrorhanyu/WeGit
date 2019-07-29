@@ -22,7 +22,11 @@ const searchRepositories = (name) => {
         payload: response.data.map(search => {
           return new Search(search)
         }),
-        addition: {maxPage: response.header['Max-Page']}
+        addition: {
+          searchedRepo: name,
+          maxPage: response.header['Max-Page'],
+          currentPagination: 1
+        }
       })
       return
     } catch (e) {
@@ -44,7 +48,11 @@ const loadMoreRepositories = (name, page) => {
         payload: response.data.map(search => {
           return new Search(search)
         }),
-        addition: {maxPage: response.header['Max-Page']}
+        addition: {
+          searchedRepo: name,
+          maxPage: response.header['Max-Page'],
+          currentPagination: page
+        }
       })
       return
     } catch (e) {

@@ -29,6 +29,9 @@ export default function search(state = {} as SearchState, action) {
       return {
         ...state, isSearchedRepositoriesUpdated: true,
         searchedRepositories: action.payload,
+        name: action.addition.maxPage,
+        searchedRepo: action.addition.searchedRepo,
+        currentPagination: action.addition.currentPagination,
         maxPagination: action.addition.maxPage
       }
     case LOAD_MORE_REPOSITORIES_PENDING:
@@ -44,6 +47,8 @@ export default function search(state = {} as SearchState, action) {
         ...state,
         isLoadingMoreRepositoriesUpdated: true,
         searchedRepositories: [...state.searchedRepositories || [], ...action.payload],
+        searchedRepo: action.addition.searchedRepo,
+        currentPagination: action.addition.currentPagination,
         maxPagination: action.addition.maxPage
       }
     default:

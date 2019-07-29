@@ -20,7 +20,9 @@ type PageStateProps = {
     isSearchedRepositoriesUpdated: boolean,
     isLoadingMoreRepositoriesUpdated: boolean,
     searchedRepositories: Search[],
-    maxPagination: string
+    searchedRepo: string,
+    maxPagination: number,
+    currentPagination: number
   }
 }
 
@@ -60,8 +62,8 @@ class SearchComponent extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      searchedRepo: '',
-      currentPagination: 1
+      searchedRepo: this.props.search.searchedRepo || '',
+      currentPagination: this.props.search.currentPagination || 1
     }
   }
 
@@ -71,14 +73,14 @@ class SearchComponent extends Component {
 
   loadMore() {
     this.setState({currentPagination: this.state.currentPagination + 1}, () => {
-      this.props.loadMoreRepositories(this.state.searchedRepo, this.state.currentPagination)
+      this.props.loadMoreRepositories(this.state.searchedRepo || this.props.search.searchedRepo, this.state.currentPagination)
     })
   }
 
   getLoadMoreStatus() {
     if (this.props.search.isLoadingMoreRepositoriesUpdated === false) {
       return 'LOADING'
-    } else if (this.state.currentPagination < +this.props.search.maxPagination) {
+    } else if (this.state.currentPagination < this.props.search.maxPagination) {
       return 'LOAD_MORE'
     } else {
       return 'NO_MORE'
