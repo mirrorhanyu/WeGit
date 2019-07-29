@@ -30,7 +30,9 @@ export default function activity(state = {} as ActivityState, action) {
         ...state,
         isActivitiesUpdated: true,
         activities: action.payload,
-        maxPagination: action.addition.maxPage
+        username: action.addition.username,
+        maxPagination: action.addition.maxPage,
+        currentPagination: action.addition.currentPagination
       }
     case LOAD_MORE_ACTIVITIES_PENDING:
       return {
@@ -45,7 +47,9 @@ export default function activity(state = {} as ActivityState, action) {
         ...state,
         isLoadingMoreActivitiesUpdated: true,
         activities: [...state.activities, ...action.payload],
-        maxPagination: action.addition.maxPage
+        username: action.addition.username,
+        maxPagination: action.addition.maxPage,
+        currentPagination: action.addition.currentPagination
       }
     default:
       return state

@@ -23,7 +23,11 @@ const fetchActivities = (token, username) => {
         payload: response.data.map(activity => {
           return new Activity(activity)
         }),
-        addition: {maxPage: response.header['Max-Page']}
+        addition: {
+          username: username,
+          maxPage: response.header['Max-Page'],
+          currentPagination: 1
+        }
       })
       return
     } catch (e) {
@@ -46,7 +50,11 @@ const loadMoreActivities = (token, username, page) => {
         payload: response.data.map(activity => {
           return new Activity(activity)
         }),
-        addition: {maxPage: response.header['Max-Page']}
+        addition: {
+          username: username,
+          maxPage: response.header['Max-Page'],
+          currentPagination: page
+        },
       })
       return
     } catch (e) {

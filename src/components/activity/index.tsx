@@ -21,7 +21,9 @@ type PageStateProps = {
     isActivitiesUpdated: boolean,
     isLoadingMoreActivitiesUpdated: boolean,
     activities: Activity[],
-    maxPagination: string
+    username: string,
+    maxPagination: number,
+    currentPagination: number
   }
 }
 
@@ -35,10 +37,8 @@ type PageOwnProps = {}
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
 type PageState = {
-  currentPagination: number,
   token: string,
   notLogin: false,
-  username: string
 }
 
 type IState = PageState
@@ -63,17 +63,15 @@ class ActivityComponent extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      currentPagination: 1,
       token: '',
       notLogin: false,
-      username: ''
     }
   }
 
   getLoadMoreStatus() {
     if (this.props.activity.isLoadingMoreActivitiesUpdated === false) {
       return 'LOADING'
-    } else if (this.state.currentPagination < +this.props.activity.maxPagination) {
+    } else if (this.props.activity.currentPagination < this.props.activity.maxPagination) {
       return 'LOAD_MORE'
     } else {
       return 'NO_MORE'
@@ -81,9 +79,7 @@ class ActivityComponent extends Component {
   }
 
   loadMore() {
-    this.setState({currentPagination: this.state.currentPagination + 1}, () => {
-      this.props.loadMoreActivities(this.state.token, this.state.username, this.state.currentPagination)
-    })
+    this.props.loadMoreActivities(this.state.token, this.props.activity.username, this.props.activity.currentPagination + 1)
   }
 
   goToRepository(author, name, event) {
@@ -99,12 +95,12 @@ class ActivityComponent extends Component {
     })
   }
 
-  componentWillMount() {
-    Taro.setNavigationBarTitle({title: "Activity"})
-  }
-
   login() {
     Taro.navigateTo({url: '/pages/login'})
+  }
+
+  componentWillMount() {
+    Taro.setNavigationBarTitle({title: "Activity"})
   }
 
   componentDidMount() {
